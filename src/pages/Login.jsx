@@ -1,13 +1,11 @@
 import React, { useState } from 'react';
 
-import axios from 'axios';
-
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 
 import logoSVG from '../images/logo.svg';
 import './Login.css';
-
+import api from '../api';
 
 function Login() {
   
@@ -15,9 +13,20 @@ function Login() {
   const [password, setPassword] = useState("");
   
   async function verifyCredentials() {
-      // TODO
-  }
+    try {
+      const res = await api.post('/users/logon', {
+        email,
+        password
+      });
 
+      if (res.status == 200) alert('Login efetuado com sucesso!');
+      
+    } catch (err) {
+      console.error(err);
+      if (err.response.status == 404) alert('Usuário não encontrado!');
+      if (err.response.status == 500) alert('Problema interno!');
+    }   
+  }
 
 
 
