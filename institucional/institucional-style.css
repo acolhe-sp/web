@@ -1,7 +1,11 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    scroll-behavior: smooth;
+    font-family: "Poppins", sans-serif;
 }
 
 /* ------------------------------------------------- HEADER ----------------------------------------------- */
@@ -12,6 +16,8 @@ header {
     height: 4em;
     display: flex;
     justify-content: center;
+    position: fixed;
+    z-index: 2;
 }
 
 .container-header {
@@ -28,9 +34,8 @@ header {
 }
 
 .navbar {
-    font-family: 'Montserrat';
     font-weight: 700;
-    width: 30%;
+    width: 40%;
 }
 
 .navbar a {
@@ -64,7 +69,6 @@ header {
 .login-button button {
     width: 100%;
     height: 50%;
-    font-family: 'Montserrat';
     font-weight: 700;
     font-size: 80%;
     color: rgba(255, 255, 255, 1);
@@ -81,6 +85,26 @@ header {
 
 /* ------------------------------------------------- CONTENT ----------------------------------------------- */
 
+@keyframes float {
+    0% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-20px);
+    }
+    100% {
+        transform: translateY(0px);
+    }
+}
+
+.about-us-content img {
+    transform: translateY(0px);
+    filter: drop-shadow(0 50px 50px #42318f63);
+    animation: float 5s ease-in-out infinite;
+    z-index: 1;
+}
+
+
 .content {
     display: flex;
     align-items: center;
@@ -88,19 +112,19 @@ header {
 }
 
 .quote {
-    height: 40em;
+    height: 35em;
     width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-family: 'Montserrat';
     text-shadow: 2px 1px 2px #664343;
     color: rgba(232, 180, 184, 1);
 }
 
 .quote h1 {
-    font-size: 60px;
+    font-size: 45px;
     text-align: center;
+    font-family: 'montserrat';
 }
 
 .quote span {
@@ -108,7 +132,7 @@ header {
 }
 
 .ellipse-upper {
-    height: 6em;
+    padding-top: 5em;
     width: 100%;
     border-radius: 30% / 100% 100% 0 0;
 
@@ -118,6 +142,7 @@ header {
 
 .about-us {
     width: 100%;
+    height: 65em;
 }
 
 .threshold {
@@ -127,7 +152,7 @@ header {
 }
 
 .about-us-content {
-    height: 720px;
+    height: 700px;
     width: inherit;
     display: flex;
     justify-content: space-evenly;
@@ -153,18 +178,18 @@ header {
     flex-direction: column;
     justify-content: center;
     color: #67595E;
-    font-family: 'Montserrat';
 }
 
 .about-us-text h1 {
     font-weight: bold;
     font-size: 45px;
     text-align: center;
-    margin-bottom: 3%;
+    margin-bottom: 8%;
+    margin-right: 5px;
 }
 
 .about-us-text p {
-    font-size: 33px;
+    font-size: 22px;
     text-align: justify;
 }
 
@@ -178,27 +203,31 @@ header {
 }
 
 .our-work {
-    width: 100%;
-    font-family: 'Montserrat';
+    width: 85%;
 }
 
 .our-work-content-box {
     width: inherit;
-    height: 510px;
+    height: 650px;
     display: flex;
     justify-content: space-around;
 }
 
 .our-work-content-box-img {
-    height: 100%;
-    width: 40%;
+    height: 60%;
+    width: 30%;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
 .our-work-content-box-img img {
-    height: 95%;
+    margin-top: 15em;
+    height: 80%;
+    transform: translateY(0px);
+    filter: drop-shadow(0 50px 50px #42318f63);
+    animation: float 5s ease-in-out infinite;
+    z-index: 1;
 }
 
 .our-work-content-box-text {
@@ -213,10 +242,11 @@ header {
     font-weight: bold;
     font-size: 45px;
     margin-bottom: 3%;
+    color: #664343;
 }
 
 .our-work-content-box-text p {
-    font-size: 35px;
+    font-size: 22px;
 }
 
 .text-align-right {
@@ -229,18 +259,17 @@ header {
 
 .news {
     width: 100%;
-    margin-top: 2%;
+    margin-top: 5%;
 }
 
 .news-content {
     width: inherit;
-    height: 950px;
+    height: 600px;
     background-color: #EED6D3;
 }
 
 .news-content h1 {
-    font-family: 'Caudex';
-    font-size: 90px;
+    font-size: 50px;
     font-weight: bold;
     color: #ffffff;
     text-align: center;
@@ -252,9 +281,11 @@ header {
 
 /* Slideshow container */
 .slideshow-container {
-    max-width: 1000px;
+    width: 80%;
+    height: 70%;
     position: relative;
     margin: auto;
+    overflow: hidden;
   }
   
   /* Hide the images by default */
@@ -344,7 +375,7 @@ header {
 
 
 .squad {
-    height: 1000px;
+    height: 50em;
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -352,33 +383,48 @@ header {
 }
 
 .squad h1 {
-    margin-top: 4%;
-    font-family: 'Caudex';
-    font-size: 90px;
+    margin-top: 7%;
+    font-size: 40px;
     color: #664343;
 }
 
 .members {
-    margin-top: 4%;
+    margin-top: 0%;
     width: 70%;
     height: 30%;
     display: flex;
-    justify-content: space-evenly;
+    justify-content: space-between;
+}
+
+#members2 {
+    margin-top: 0%;
 }
 
 .member-card {
     height: 100%;
     width: 15%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .member-card img {
-    width: 100%;
+    height: 150px;
+    width: 150px;
+    margin: 0 30px 0 30px;
+    border: 3px solid #664343;
+    border-top: none;
+    border-left: none;
+    box-shadow: inset 0 0 20px #af8443, 0 0 20px #664343;
+    border-radius: 50%;
 }
 
 .member-card p {
-    text-align: center;
-    font-family: 'Montserrat';
-    font-size: 25px;
+    text-align: left;
+    font-size: 15px;
+
+    font-weight: bold;
+    padding: 3%;
 }
 
 
@@ -387,11 +433,10 @@ header {
 footer {
     background-color: rgba(103, 89, 94, 1);
     width: 100%;
-    height: 15em;
+    height: 25em;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-family: 'Montserrat';
     color: #ffffff;
     margin-top: 3%;
 }
@@ -401,23 +446,31 @@ footer {
     height: 100%;
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: left;
 }
 
 .footer-text {
+    margin-top: 7em;
     height: 50%;
-    width: 30%;
-}
-
-.text-align-center {
-    text-align: center;
+    width: 250px;
 }
 
 .footer-text h1 {
-    font-size: 40px;
+    font-size: 30px;
+    margin-bottom: 1em;
     font-weight: bold;
 }
 
 .footer-text p {
-    font-size: 27px;
+    font-size: 13px;
+}
+
+.footer-copyright{
+    background: #f3f3f3;
+    padding: 20px 0;
+    font-size: 15px;
+}
+
+.footer-copyright p{
+    text-align: center;
 }
