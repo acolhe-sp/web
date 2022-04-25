@@ -1,0 +1,123 @@
+
+.container-fluid {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+}
+
+.c-signup-illustration {
+  display: flex;
+  width: 50%;
+  height: 100vh;
+  background-color: rgba(228, 168, 125, .7);
+}
+
+.c-signup-illustration img {
+  width: 100%;
+}
+
+.logo-footer {
+  width: 0;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+}
+
+.logo-footer img {
+  width: 48px;
+  margin-bottom: 32px;
+  background-color: rgb(32, 33, 36);
+  border-radius: 75px;
+  padding: 5px;
+}
+
+.form-signup-donor {
+  width: 50%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #fff;
+}
+
+form {
+  display: flex;
+  justify-content: center !important;
+  flex-direction: column;
+}
+
+
+.form-signup-donor h2 {
+  margin-top: 16px;
+  margin-bottom: 0;
+  font-weight: 400;
+  text-align: center;
+  justify-content: center;
+}
+
+.form-signup-donor img {
+  width: 80px;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+.upload-avatar {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  height: 23vh;
+}
+
+.input-upload-avatar {
+  justify-content: center;
+  margin-left: 48px;
+}
+
+.input-group {
+  align-items: flex-start;
+  width: 80%;
+  margin: 8px auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+
+}
+
+.input-group div {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.input-group p {
+  margin-bottom: 8px;
+}
+
+.btn-group {
+  display: flex;
+  justify-content: center;
+}
+
+.btn-group button {
+  margin-top: 0;
+  width: 300px;
+}
+
+.select-uf {
+  margin-top: 10px;
+  width: 6rem;
+}
+
+.select-uf option {
+  text-align: center;
+}
+
+.gambeta {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+.gambeta input {
+  width: 5rem;
+}

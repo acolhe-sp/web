@@ -1,13 +1,24 @@
-import { createTheme } from '@material-ui/core/styles';
-import { brown } from '@material-ui/core/colors';
+import { createTheme } from '@mui/material/styles';
+import { brown } from '@mui/material/colors';
 
-export const LightTheme = createTheme({
+const LightTheme = createTheme({
   palette: {
+    text: {
+      primary: '#333333'
+    },
+    background: {
+      default: '#fff'
+    },
     primary: {
       main: brown[500],
       dark: brown[700],
       ligt: brown[400],
       contrastText: '#fff',
     },
+  },
+  typography: {
+    fontFamily: 'Montserrat'
   }
 });
+
+export default LightTheme;

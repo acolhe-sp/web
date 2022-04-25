@@ -2,6 +2,18 @@
 
 * {
   font-family: 'Montserrat', sans-serif;
+} 
+
+.input-login:first-child {
+  margin-bottom: 24px !important;
+}
+
+button {
+  margin-top: 24px !important;
+}
+
+.input-login input:last-child {
+  /* margin-top: 80px; */
 }
 
 .container {
@@ -18,7 +30,7 @@
 
 img {
   margin: 42px auto 92px auto;
-  width: 10ch;
+  width: 13.5ch;
 }
 
 .form-group {
@@ -29,13 +41,11 @@ img {
 }
 
 p {
-  margin: 16px auto 16px auto;
-
+  margin: 10px auto -10px auto;
 }
 
 .form-group:first-child {
-  margin-top: 24px;
-  outline-color: black;
+  margin-top: 30px;
 }
 
 .form-group button {
