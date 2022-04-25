@@ -8,7 +8,28 @@ import logoSVG from '../images/logoWithTitle.svg';
 import api from '../api';
 import './Login.css';
 
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
+import Stack from '@mui/material/Stack';
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
+
 function Login() {
+
+  const [openSuccessAlert, setOpenSuccessAlert] = useState(false);
+  const [openFailedAlert, setOpenFailedAlert] = useState(false);
+  
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpenSuccessAlert(false);
+    setOpenFailedAlert(false);
+  };
 
   const navigate = useNavigate();
 
@@ -22,12 +43,11 @@ function Login() {
         password
       });
 
-      if (res.status == 200) alert('Login efetuado com sucesso!');
+      setOpenSuccessAlert(true);
 
     } catch (err) {
       console.error(err);
-      if (err.response.status == 404) alert('Usuário não encontrado!');
-      if (err.response.status == 500) alert('Problema interno!');
+      setOpenFailedAlert(true);
     }
   }
 
@@ -57,7 +77,8 @@ function Login() {
           onChange={(e) => setPassword(e.target.value)}
         />
 
-          
+
+        <Stack spacing={2} sx={{ width: '100%' }}>
           <Button
             variant="contained"
             className="btn"
@@ -65,15 +86,27 @@ function Login() {
           >
             Entrar
           </Button>
-          <p>--- OU ---</p>
+          <Snackbar open={openSuccessAlert} autoHideDuration={3000} onClose={handleClose}>
+            <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
+              Login efetuado com sucesso!
+            </Alert>
+          </Snackbar>
+          <Snackbar open={openFailedAlert} autoHideDuration={3000} onClose={handleClose}>
+            <Alert onClose={handleClose} severity="error" sx={{ width: '100%' }}>
+              E-mail ou senha incorreto(s)!
+            </Alert>
+          </Snackbar>
+        </Stack>
 
-          <Button
-            variant="contained"
-            className="btn"
-            onClick={() => navigate("/donor-register")}
-          >
-            Cadastre-se
-          </Button>
+        <p>--- OU ---</p>
+
+        <Button
+          variant="contained"
+          className="btn"
+          onClick={() => navigate("/donor-register")}
+        >
+          Cadastre-se
+        </Button>
       </div>
     </div>
   );

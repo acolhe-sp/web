@@ -118,6 +118,6 @@ form {
   justify-content: space-around;
 }
 
-.gambeta input {
-  width: 5rem;
+button {
+  letter-spacing: 2px;
 }

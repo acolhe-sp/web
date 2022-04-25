@@ -10,10 +10,9 @@ import { Button, TextField } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import PhotoCamera from '@mui/icons-material/PhotoCamera';
 import Stack from '@mui/material/Stack';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
-import MenuItem from '@mui/material/MenuItem';
 import NativeSelect from '@mui/material/NativeSelect';
-import InputLabel from '@mui/material/InputLabel';
+
+
 
 import './DonorRegister.css';
 import api from '../api';
@@ -23,11 +22,10 @@ const Input = styled('input')({
 });
 
 
-
 function DonorRegister() {
   document.title = 'Cadastre-se';
-
   const navigate = useNavigate();
+  
 
   const [nome, setNome] = useState("");
   const [rg, setRg] = useState("");
@@ -124,6 +122,9 @@ function DonorRegister() {
         <form>
           <div className="upload-avatar">
             <img src={emptyAvatar} />
+
+            
+
 
             <Stack className="input-upload-avatar" direction="row" alignItems="center" spacing={1}>
               <label htmlFor="contained-button-file">
