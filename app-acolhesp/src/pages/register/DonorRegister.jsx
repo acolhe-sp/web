@@ -1,9 +1,9 @@
 import { React, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import signupSVG from '../images/sign-up.svg';
-import logoSVG from '../images/logo.svg';
-import emptyAvatar from '../images/empty-avatar.png';
+import signupSVG from '../../images/sign-up.svg';
+import logoSVG from '../../images/logo.svg';
+import emptyAvatar from '../../images/empty-avatar.png';
 
 import { styled } from '@mui/material/styles';
 import { Button, TextField } from '@mui/material';
@@ -15,7 +15,7 @@ import NativeSelect from '@mui/material/NativeSelect';
 
 
 import './DonorRegister.css';
-import api from '../api';
+import api from '../../api';
 
 const Input = styled('input')({
   display: 'none',

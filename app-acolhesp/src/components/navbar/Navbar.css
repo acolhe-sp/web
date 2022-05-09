@@ -1,0 +1,14 @@
+nav {
+    height: 80px;
+    width: 100%;
+    background-color: white;
+}
+
+.avatar {
+    float: right;
+}
+
+.logo, .avatar {
+    margin-top: 15px;
+    height: 50px;
+}
