@@ -7,11 +7,5 @@
 .container {
     /* display: flex; */
     width: 80%;
-    margin: auto;
-    background-color: #fff;
-}
-
-.logo {
-    display: flex;
     margin: 0 auto;
 }

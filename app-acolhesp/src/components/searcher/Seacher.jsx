@@ -1,31 +1,23 @@
-import React from "react";
+import * as React from 'react';
 import Paper from '@mui/material/Paper';
 import InputBase from '@mui/material/InputBase';
-import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import SearchIcon from '@mui/icons-material/Search';
-import DirectionsIcon from '@mui/icons-material/Directions';
 
 export default function Searcher() {
   return (
-        <Paper
-        component="form"
-        sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: 400 }}
-        >
-        <InputBase
-        sx={{ ml: 1, flex: 1 }}
+    <Paper
+      // component="form"
+      sx={{ display: 'flex', width: 500, height: 50, alignItems: 'center', p: '2px 5px' }}
+    >
+      <InputBase
+        sx={{ width: 450, ml: 1, textAlign: 'center'  }}
         placeholder="Pesquise aqui"
         inputProps={{ 'aria-label': 'Pesquise aqui' }}
-        />
-        <IconButton type="submit" sx={{ p: '10px' }} aria-label="search">
-            <SearchIcon />
-        </IconButton>
-        
-        <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
-        
-        <IconButton color="primary" sx={{ p: '10px' }} aria-label="directions">
-            <DirectionsIcon />
-        </IconButton>
+      />
+      <IconButton type="submit" sx={{ position: 'relative', top: -10 }} aria-label="search">
+        <SearchIcon />
+      </IconButton>
     </Paper>
   );
 }

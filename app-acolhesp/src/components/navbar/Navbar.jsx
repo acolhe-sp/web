@@ -1,21 +1,43 @@
 import React from 'react';
 import { Link } from "react-router-dom";
+
 import logoAcolhesp from '../../images/logoWithTitle.svg';
-import noImageUser from '../../images/empty-avatar.png';
+import noImageUser from '../../images/profileavatar.png';
+
 import Searcher from '../searcher/Seacher';
 
-function Navbar() {
+import './Navbar.css';
+import { Paper } from '@mui/material';
+
+function Navbar(props) {
     return (
         <>
         <nav>
             <div className="container">
-                <Link to="/">
-                    <img src={logoAcolhesp} alt="Logo" className="logo" />
-                </Link>
+                <div class="content-nav">
+                
+                    <a href="/">
+                        <img src={logoAcolhesp} alt="Logo" />
+                    </a>
 
-                <Searcher></Searcher>
+                    <Searcher />
 
-                <img src={noImageUser} alt="image" className="avatar" />
+                    <Paper 
+                        sx={{ 
+                            display: 'flex', 
+                            width: 200, 
+                            height: 50, 
+                            alignItems: 'center',
+                            p: '2px 5px',
+                            backgroundColor: 'transparent'
+                        }}
+                        elevation='0'
+                    >
+                        <img src={noImageUser} alt="image" className="avatar" />
+                        <p style={{ position: 'relative', top: '-8px', left: '-13px' }}>Kelly Sandra</p>
+                    </Paper>
+
+                </div>
             </div>
         </nav>
         </>
