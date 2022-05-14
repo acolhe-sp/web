@@ -15,7 +15,7 @@ export default function Searcher() {
         placeholder="Pesquise aqui"
         inputProps={{ 'aria-label': 'Pesquise aqui' }}
       />
-      <IconButton type="submit" sx={{ position: 'relative', top: -10 }} aria-label="search">
+      <IconButton type="submit" sx={{ position: 'relative', top: 1 }} aria-label="search">
         <SearchIcon />
       </IconButton>
     </Paper>

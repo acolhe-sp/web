@@ -18,6 +18,24 @@ const LightTheme = createTheme({
   },
   typography: {
     fontFamily: 'Montserrat'
+  },
+  components: {
+    MuiButton: {
+      variants: [
+        {
+          props: { variant: 'navbar' },
+          style: {
+            backgroundColor: '#FFF',
+            color: 'black',
+            border: '1px solid silver',
+            borderRadius: '5px',
+            ":hover": {
+              backgroundColor: 'silver',
+            }
+          },
+        }
+      ]
+    }
   }
 });
 

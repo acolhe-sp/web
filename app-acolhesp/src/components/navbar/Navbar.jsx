@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from "react-router-dom";
 
 import logoAcolhesp from '../../images/logoWithTitle.svg';
 import noImageUser from '../../images/profileavatar.png';
@@ -8,6 +7,7 @@ import Searcher from '../searcher/Seacher';
 
 import './Navbar.css';
 import { Paper } from '@mui/material';
+import PopFunctionNav from '../popFunctionsNav/PopFunctionsNav';
 
 function Navbar(props) {
     return (
@@ -35,6 +35,9 @@ function Navbar(props) {
                     >
                         <img src={noImageUser} alt="image" className="avatar" />
                         <p style={{ position: 'relative', top: '-8px', left: '-13px' }}>Kelly Sandra</p>
+
+                        <PopFunctionNav />
+
                     </Paper>
 
                 </div>

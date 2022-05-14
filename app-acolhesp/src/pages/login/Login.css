@@ -3,7 +3,7 @@
   margin-bottom: 24px !important;
 }
 
-button {
+.form-group button {
   margin-top: 24px !important;
 }
 
@@ -11,7 +11,7 @@ button {
   /* margin-top: 80px; */
 }
 
-img {
+.logo img {
   margin: 42px auto 92px auto;
   width: 13.5ch;
 }
