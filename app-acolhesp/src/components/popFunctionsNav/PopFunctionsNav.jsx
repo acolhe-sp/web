@@ -22,8 +22,8 @@ export default function PopFunctionNav() {
     <div style={{ width: 10 }}>
       
       <Typography aria-describedby={id} variant="contained" onClick={handleClick}
-      style={{ 
-        position: 'relative', left: '-20px', top: '7px', 
+      sx={{ 
+        position: 'relative', left: '4px', top: '4px', 
         color: 'black', boxShadow: 'none', cursor: 'pointer' 
       }} 
       disableElevation='true'>

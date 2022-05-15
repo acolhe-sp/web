@@ -1,0 +1,89 @@
+
+.card {
+    height: 375px;
+    width: 26.3%;
+    margin: 0 1%;
+    border: 1px solid rgb(192, 192, 192);
+    margin-bottom: 30px;
+    border-radius: 5px;
+}
+
+.card a {
+    color: #000;
+    text-decoration: none;
+}
+
+.header-card {
+    height: 8%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    padding: 15px;
+}
+
+.news {
+    position: relative;
+    border-radius: 100%;
+    background-color: rgba(64, 64, 223, 0.863);
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    
+    height: 25px;
+    width: 25px;
+    
+    left: 64%;
+}
+
+.news p {
+    position: relative;
+    font-size: 12px;
+    color: white;
+
+    top: -7.5px;
+    left: 0.5px;
+}
+
+.body-card {
+    display: grid;
+
+    margin-top: 5px;
+    width: 100%;
+    height: 90%;
+
+    justify-items: center;
+}
+
+.body-card .name-ong {
+    position: relative;
+    top: -5px;
+}
+
+.body-card textarea {
+    position: relative;
+    top: -23px;
+}
+
+.body-card textarea::-webkit-scrollbar {
+    display: none;
+}
+
+.body-card img {
+    height: 150px;
+    width: 150px;
+    border-radius: 50%;
+}
+
+.name-ong {
+    font-weight: bold;
+}
+
+.categoria-card {
+    position: relative;
+    top: -23px;
+    color: brown;
+    padding: 0px 25px 0px 25px;
+    margin-top: 5px;
+    border: 1px solid rgb(155, 155, 155);
+    border-radius: 100px;
+}

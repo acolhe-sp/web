@@ -1,0 +1,27 @@
+
+.group-cards-filter {
+    display: flex;
+    width: 100%;
+    height: 200px;
+    justify-content: space-evenly;
+    align-items: center;
+
+    border-bottom: 1px solid black;
+}
+
+.title-list {
+    font-size: 24px;
+    font-weight: bolder;
+}
+
+.title-list span{
+    color: rgb(167, 111, 28);
+}
+
+.list-ongs {
+    padding-top: 20px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    height: auto;
+}

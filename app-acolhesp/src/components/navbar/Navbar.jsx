@@ -1,7 +1,7 @@
 import React from 'react';
 
 import logoAcolhesp from '../../images/logoWithTitle.svg';
-import noImageUser from '../../images/profileavatar.png';
+import fotoPadrao from '../../images/profileavatar.png';
 
 import Searcher from '../searcher/Seacher';
 
@@ -10,13 +10,16 @@ import { Paper } from '@mui/material';
 import PopFunctionNav from '../popFunctionsNav/PopFunctionsNav';
 
 function Navbar(props) {
+
+    const imagemUser = props.imagem ? props.imagem : fotoPadrao;
+
     return (
         <>
         <nav>
             <div className="container">
                 <div class="content-nav">
                 
-                    <a href="/">
+                    <a href="/home">
                         <img src={logoAcolhesp} alt="Logo" />
                     </a>
 
@@ -33,8 +36,8 @@ function Navbar(props) {
                         }}
                         elevation='0'
                     >
-                        <img src={noImageUser} alt="image" className="avatar" />
-                        <p style={{ position: 'relative', top: '-8px', left: '-13px' }}>Kelly Sandra</p>
+                        <img src={imagemUser} alt="image" className="avatar" />
+                        <p style={{ position: 'relative', top: '0px', left: '5px' }}>Kelly Sandra</p>
 
                         <PopFunctionNav />
 
