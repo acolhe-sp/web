@@ -1,7 +1,10 @@
 nav {
     height: 80px;
     width: 100%;
+    background-color: white;
     box-shadow: 0 0 1em rgba(54, 54, 54, 0.315);
+    position: fixed;
+    z-index: 1;
 }
 
 .content-nav {
@@ -10,7 +13,6 @@ nav {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    
 }
 
 .content-nav a {

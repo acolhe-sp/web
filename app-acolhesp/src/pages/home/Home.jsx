@@ -55,6 +55,34 @@ function Home() {
                         descricao="Fundada apartir de um quintal, SãoPet é uma ONG na zona oeste de são paulo que foi tem o intuito de ajudar nossos amiguinhos a encontrar lar onde recebam muito amor e carinho. Existimos a mais de 20 anos ..."
                         categoria="Animal" />
 
+                    <CardHome 
+                        nota='4'
+                        notificacoes='5'
+                        nome="SãoPet"
+                        descricao="Fundada apartir de um quintal, SãoPet é uma ONG na zona oeste de são paulo que foi tem o intuito de ajudar nossos amiguinhos a encontrar lar onde recebam muito amor e carinho. Existimos a mais de 20 anos ..."
+                        categoria="Animal" />
+
+                    <CardHome 
+                        nota='4'
+                        notificacoes='5'
+                        nome="SãoPet"
+                        descricao="Fundada apartir de um quintal, SãoPet é uma ONG na zona oeste de são paulo que foi tem o intuito de ajudar nossos amiguinhos a encontrar lar onde recebam muito amor e carinho. Existimos a mais de 20 anos ..."
+                        categoria="Animal" />
+
+                    <CardHome 
+                        nota='4'
+                        notificacoes='5'
+                        nome="SãoPet"
+                        descricao="Fundada apartir de um quintal, SãoPet é uma ONG na zona oeste de são paulo que foi tem o intuito de ajudar nossos amiguinhos a encontrar lar onde recebam muito amor e carinho. Existimos a mais de 20 anos ..."
+                        categoria="Animal" />
+
+                    <CardHome 
+                        nota='4'
+                        notificacoes='5'
+                        nome="SãoPet"
+                        descricao="Fundada apartir de um quintal, SãoPet é uma ONG na zona oeste de são paulo que foi tem o intuito de ajudar nossos amiguinhos a encontrar lar onde recebam muito amor e carinho. Existimos a mais de 20 anos ..."
+                        categoria="Animal" />
+
                 </div>
             
             </div>

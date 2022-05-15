@@ -13,6 +13,8 @@ function Navbar(props) {
 
     const imagemUser = props.imagem ? props.imagem : fotoPadrao;
 
+    const nomeUser = props.nome ? props.nome : 'Kelly Sandra';
+
     return (
         <>
         <nav>
@@ -37,7 +39,7 @@ function Navbar(props) {
                         elevation='0'
                     >
                         <img src={imagemUser} alt="image" className="avatar" />
-                        <p style={{ position: 'relative', top: '0px', left: '5px' }}>Kelly Sandra</p>
+                        <p style={{ position: 'relative', top: '0px', left: '5px' }}>{nomeUser}</p>
 
                         <PopFunctionNav />
 
