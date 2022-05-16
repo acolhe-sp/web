@@ -11,6 +11,11 @@
   /* margin-top: 80px; */
 }
 
+.logo {
+  display: flex;
+  justify-content: center;
+}
+
 .logo img {
   margin: 42px auto 92px auto;
   width: 13.5ch;
