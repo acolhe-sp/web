@@ -1,0 +1,98 @@
+
+.content-publi {
+    height: 80vh;
+    width: 40vw;
+
+    margin-bottom: 40px;
+
+    border: 1px solid #727272;
+    border-radius: 10px;
+
+    padding: 30px;
+}
+
+.header-publi {
+    display: flex;
+}
+
+.header-publi .img-ong {
+    height: 100px;
+    width: 100px;
+}
+
+.ong-name-data{
+    display: grid;
+
+    margin-left: 20px;
+    align-content: center;
+    height: auto;
+}
+
+.ong-name-data p{
+    margin: 0px;
+    font-weight: bold;
+}
+
+.content-publi textarea::-webkit-scrollbar {
+    display: none;
+}
+
+.container-img-publi {
+    width: 100%;
+    height: 50%;
+
+    border-radius: 10px;
+
+    overflow: hidden;
+}
+
+.container-img-publi img{
+    width: 100%;
+    height: 100%;
+}
+
+.dinamic-items-publi {
+    display: flex;
+
+    margin-top: 6px;
+
+    align-items: center;
+    justify-content: space-evenly;
+
+    width: 100%;
+    height: 50px;
+}
+
+.dinamic-items-publi button {
+    position: relative;
+    width: 50px;
+
+    background-color: transparent;
+    outline: none;
+
+    cursor: pointer;
+
+    border: none;
+
+    align-items: center;
+
+    transition: .2s ease-in-out;
+}
+
+.dinamic-items-publi button .imgLike {
+    width: 100%;
+    transition: .2s ease-in-out;
+}
+
+.dinamic-items-publi span {
+    position: relative;
+    top: -3px;
+    font-size: 35px;
+}
+
+.content-pop-coments {
+    height: 200px;
+    width: 200px;
+
+    background-color: red;
+}

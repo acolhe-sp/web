@@ -1,0 +1,77 @@
+
+.capa-ong {
+    position: relative;
+
+    top: 7.2vh;
+    width: 100%;
+    height: 40vh;
+
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+
+    background-color: #7e7e7ead;
+}
+
+.capa-ong .content {
+    position: relative;
+
+    height: 220px;
+    width: 92%;
+
+    display: flex;
+
+    align-items: center;
+
+    top: 27vh;
+    left: 50px;
+}
+
+.img-ong {
+    height: 180px;
+    width: 180px;
+    border-radius: 50%;
+}
+
+.descricao {
+    width: 30%;
+    height: 100%;
+
+    margin-left: 30px;
+}
+
+.descricao .inside-capa {
+    width: 62vw;
+    display: flex;
+
+    margin-top: 63px;
+}
+
+.descricao .inside-capa span{
+    font-size: 24px;
+    font-weight: bold;
+    flex: content;
+}
+
+.descricao .inside-capa button{
+    justify-self: flex-end;
+}
+
+.fix-align-local-button {
+    position: relative;
+    left: -13px;
+}
+
+.list-publications {
+    position: relative;
+    
+    margin: 0 auto;
+
+    top: 30vh;
+
+    display: grid;
+
+    justify-items: center;
+
+    height: auto;
+    width: 60vw;
+}

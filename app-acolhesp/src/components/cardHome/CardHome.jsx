@@ -1,5 +1,6 @@
 import { Rating, TextField, InputBase } from '@mui/material';
 import React from 'react';
+import { useNavigate } from "react-router-dom";
 
 import fotoPadrao from '../../images/profileavatar.png';
 
@@ -25,9 +26,11 @@ function CardHome(props) {
     ? <div class="news"><p>{props.notificacoes}</p></div>
     : '';
 
+  const navigate = useNavigate();
+
   return (
     <>
-      <div className="card">
+      <div className="card" onClick={() => navigate(`/perfil-ong/${props.id}`)}>
         <a href="">
           <div className="header-card">
             
@@ -48,7 +51,7 @@ function CardHome(props) {
               multiline
               rows={5}
               defaultValue={props.descricao}
-              disabled='true'
+              readOnly='true'
               sx={{
                 marginTop: '5px',
                 width: '90%',

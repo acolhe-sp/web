@@ -32,7 +32,6 @@ const cardsFiltersGroup = [
 function Home() {
     return (
         <>
-
             <Navbar />
 
             <br />
@@ -49,6 +48,7 @@ function Home() {
                 <div className="list-ongs">
 
                     <CardHome 
+                        id='1'
                         nota='4'
                         notificacoes='5'
                         nome="SãoPet"
@@ -56,6 +56,7 @@ function Home() {
                         categoria="Animal" />
 
                     <CardHome 
+                        id='2'
                         nota='4'
                         notificacoes='5'
                         nome="SãoPet"
@@ -63,20 +64,23 @@ function Home() {
                         categoria="Animal" />
 
                     <CardHome 
+                        id='3'
                         nota='4'
                         notificacoes='5'
                         nome="SãoPet"
                         descricao="Fundada apartir de um quintal, SãoPet é uma ONG na zona oeste de são paulo que foi tem o intuito de ajudar nossos amiguinhos a encontrar lar onde recebam muito amor e carinho. Existimos a mais de 20 anos ..."
                         categoria="Animal" />
 
-                    <CardHome 
+                    <CardHome
+                        id='4'
                         nota='4'
                         notificacoes='5'
                         nome="SãoPet"
                         descricao="Fundada apartir de um quintal, SãoPet é uma ONG na zona oeste de são paulo que foi tem o intuito de ajudar nossos amiguinhos a encontrar lar onde recebam muito amor e carinho. Existimos a mais de 20 anos ..."
                         categoria="Animal" />
 
-                    <CardHome 
+                    <CardHome
+                        id='5'
                         nota='4'
                         notificacoes='5'
                         nome="SãoPet"

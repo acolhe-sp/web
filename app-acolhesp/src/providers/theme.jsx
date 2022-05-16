@@ -33,7 +33,51 @@ const LightTheme = createTheme({
               backgroundColor: 'silver',
             }
           },
+        },
+        {
+          props: { variant: 'follow' },
+          style: {
+            backgroundColor: '#e98838ad',
+            color: 'white',
+            height: '40px',
+            borderRadius: '5px',
+            ":hover": {
+              backgroundColor: '#b35d18c4',
+            }
+          },
         }
+      ]
+    },
+    MuiInputBase: {
+      variants: [
+        {
+          props: { variant: 'descricao-perfil' },
+          style: {
+            marginTop: '5px',
+            width: '50vw',
+            color: '#7e7e7ead',
+            fontSize: '20px',
+            fontWeight: 'bold'
+          },
+        },
+        {
+          props: { variant: 'descricao-publi' },
+          style: {
+            marginTop: '5px',
+            width: '36vw',
+            color: 'black',
+            fontSize: '16px',
+          },
+        },
+        {
+          props: { variant: 'local' },
+          style: {
+            backgroundColor: 'transparent',
+            color: '#7e7e7ead',
+            fontSize: '20px',
+            fontWeight: 'bold',
+          },
+        },
       ]
     }
   }
