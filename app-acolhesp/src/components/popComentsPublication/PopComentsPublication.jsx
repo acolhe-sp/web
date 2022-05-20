@@ -25,7 +25,7 @@ export default function PopComentsPublication() {
       sx={{ 
         position: 'relative', color: 'black', boxShadow: 'none', cursor: 'pointer' 
       }} 
-      disableElevation='true'>
+      elevation={0}>
         <CommentIcon sx={{ position: 'relative', top: '9px', height: '40px', width: '40px'}} />
       </Typography>
 

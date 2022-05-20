@@ -48,7 +48,7 @@ function Publication(props) {
                     multiline
                     rows={6}
                     defaultValue={publicationMock.descricao}
-                    readOnly='true'
+                    readOnly={true}
                     variant="descricao-publi"
                 />
 

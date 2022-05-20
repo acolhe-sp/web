@@ -5,10 +5,10 @@ import SettingsSuggestIcon from '@mui/icons-material/SettingsSuggest';
 import LogoutIcon from '@mui/icons-material/Logout';
 
 const buttons = [
-    <Button elevation='0' variant="navbar" endIcon={<SettingsSuggestIcon />}>
+    <Button elevation={0} variant="navbar" endIcon={<SettingsSuggestIcon />}>
       Config.
     </Button>,
-    <Button elevation='0' variant="navbar" endIcon={<LogoutIcon />}>
+    <Button elevation={0} variant="navbar" endIcon={<LogoutIcon />}>
       Logout
     </Button>
 ];

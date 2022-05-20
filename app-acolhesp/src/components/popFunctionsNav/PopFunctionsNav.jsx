@@ -23,10 +23,10 @@ export default function PopFunctionNav() {
       
       <Typography aria-describedby={id} variant="contained" onClick={handleClick}
       sx={{ 
-        position: 'relative', left: '4px', top: '4px', 
+        position: 'relative', left: '-20px', top: '4px', 
         color: 'black', boxShadow: 'none', cursor: 'pointer' 
       }} 
-      disableElevation='true'>
+      elevation={0}>
         <ArrowDropDownIcon />
       </Typography>
 

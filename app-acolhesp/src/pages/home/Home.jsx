@@ -16,6 +16,7 @@ import iconCultura from "../../images/network.png";
 import iconDefesa from "../../images/perfil.png";
 import iconHabit from "../../images/casa-limpa.png";
 import iconAmbiente from "../../images/planeta-terra.png";
+import { useNavigate, useParams } from "react-router-dom";
 
 
 const cardsFiltersGroup = [
@@ -30,9 +31,20 @@ const cardsFiltersGroup = [
 ];
 
 function Home() {
+    document.title = 'Início';
+
+    const [ participante, setParticipante ] = React.useState(null);
+
+    useState(async ()=> {
+
+        setParticipante(JSON.parse(sessionStorage.getItem('participante')));
+
+    }, []);
+
+
     return (
         <>
-            <Navbar />
+            <Navbar id={participante.user.id} />
 
             <br />
 
@@ -48,41 +60,41 @@ function Home() {
                 <div className="list-ongs">
 
                     <CardHome 
-                        id='1'
-                        nota='4'
-                        notificacoes='5'
+                        id={2}
+                        nota={4}
+                        notificacoes={5}
                         nome="SãoPet"
                         descricao="Fundada apartir de um quintal, SãoPet é uma ONG na zona oeste de são paulo que foi tem o intuito de ajudar nossos amiguinhos a encontrar lar onde recebam muito amor e carinho. Existimos a mais de 20 anos ..."
                         categoria="Animal" />
 
                     <CardHome 
-                        id='2'
-                        nota='4'
-                        notificacoes='5'
+                        id={3}
+                        nota={4}
+                        notificacoes={5}
                         nome="SãoPet"
                         descricao="Fundada apartir de um quintal, SãoPet é uma ONG na zona oeste de são paulo que foi tem o intuito de ajudar nossos amiguinhos a encontrar lar onde recebam muito amor e carinho. Existimos a mais de 20 anos ..."
                         categoria="Animal" />
 
                     <CardHome 
-                        id='3'
-                        nota='4'
-                        notificacoes='5'
+                        id={4}
+                        nota={4}
+                        notificacoes={5}
                         nome="SãoPet"
                         descricao="Fundada apartir de um quintal, SãoPet é uma ONG na zona oeste de são paulo que foi tem o intuito de ajudar nossos amiguinhos a encontrar lar onde recebam muito amor e carinho. Existimos a mais de 20 anos ..."
                         categoria="Animal" />
 
                     <CardHome
-                        id='4'
-                        nota='4'
-                        notificacoes='5'
+                        id={5}
+                        nota={4}
+                        notificacoes={5}
                         nome="SãoPet"
                         descricao="Fundada apartir de um quintal, SãoPet é uma ONG na zona oeste de são paulo que foi tem o intuito de ajudar nossos amiguinhos a encontrar lar onde recebam muito amor e carinho. Existimos a mais de 20 anos ..."
                         categoria="Animal" />
 
                     <CardHome
-                        id='5'
-                        nota='4'
-                        notificacoes='5'
+                        id={6}
+                        nota={4}
+                        notificacoes={5}
                         nome="SãoPet"
                         descricao="Fundada apartir de um quintal, SãoPet é uma ONG na zona oeste de são paulo que foi tem o intuito de ajudar nossos amiguinhos a encontrar lar onde recebam muito amor e carinho. Existimos a mais de 20 anos ..."
                         categoria="Animal" />

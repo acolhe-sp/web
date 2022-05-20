@@ -45,6 +45,12 @@ function Login() {
 
       setOpenSuccessAlert(true);
 
+      sessionStorage.setItem("participante", JSON.stringify(res.data));
+
+      console.log('res.data: '+ res.data)
+
+      navigate(`/home`);
+
     } catch (err) {
       console.error(err);
       setOpenFailedAlert(true);

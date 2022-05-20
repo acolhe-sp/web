@@ -23,14 +23,14 @@ function CardHome(props) {
   const imagemOng = props.imagem ? props.imagem : fotoPadrao;
 
   const hasNotificacoes = props.notificacoes 
-    ? <div class="news"><p>{props.notificacoes}</p></div>
+    ? <div className="news"><p>{props.notificacoes}</p></div>
     : '';
 
   const navigate = useNavigate();
 
   return (
     <>
-      <div className="card" onClick={() => navigate(`/perfil-ong/${props.id}`)}>
+      <div className="card" onClick={() => navigate(`/${props.id_user}/perfil-ong/${props.id_ong}`)}>
         <a href="">
           <div className="header-card">
             
@@ -51,7 +51,7 @@ function CardHome(props) {
               multiline
               rows={5}
               defaultValue={props.descricao}
-              readOnly='true'
+              readOnly={true}
               sx={{
                 marginTop: '5px',
                 width: '90%',
