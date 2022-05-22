@@ -1,20 +1,19 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Navbar from "../../components/navbar/Navbar";
 
 function PerfilDoador() {
     document.title = 'Perfil';
 
-    const [ participante, setParticipante ] = React.useState(null);
+    const participante = JSON.parse(sessionStorage.getItem('participante'));
 
-    useState(async ()=> {
+    useEffect(async ()=> {
 
-        setParticipante(JSON.parse(sessionStorage.getItem('participante')));
 
     }, []);
 
     return(
         <>
-            <Navbar id={participante.user.id}/>
+            <Navbar/>
 
         </>
     );

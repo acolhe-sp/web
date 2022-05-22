@@ -9,11 +9,11 @@ export default function Router() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/login" element={<Login />} />
+        <Route path="/" element={<Login />} />
         <Route path="/donor-register" element={<DonorRegister />} />
         <Route path="/home" element={<Home />} />
         <Route path="/perfil-ong/:id" element={<PerfilOng />} />
-        <Route path="/perfil-donor" element={<PerfilDoador />} />
+        <Route path="/my-profile" element={<PerfilDoador />} />
       </Routes>
     </BrowserRouter>
   );

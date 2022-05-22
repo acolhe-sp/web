@@ -1,7 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import logoAcolhesp from '../../images/logoWithTitle.svg';
-import fotoPadrao from '../../images/profileavatar.png';
 
 import Searcher from '../searcher/Seacher';
 
@@ -11,11 +10,18 @@ import './Navbar.css';
 import { Paper } from '@mui/material';
 import PopFunctionNav from '../popFunctionsNav/PopFunctionsNav';
 
-function Navbar(props) {
+import fotoPadrao from '../../images/profileavatar.png';
+import prepareName from '../../utils/prepareName';
 
-    const imagemUser = props.imagem ? props.imagem : fotoPadrao;
+function Navbar() {
 
-    const nomeUser = props.nome ? props.nome : 'Kelly Sandra';
+    const participante = JSON.parse(sessionStorage.getItem('participante'));
+
+    useEffect(() => {
+
+
+
+    }, [])
 
     const navigate = useNavigate();
 
@@ -25,7 +31,7 @@ function Navbar(props) {
             <div className="container">
                 <div className="content-nav">
                 
-                    <a onClick={() => navigate(`/home/${props.id}`)}>
+                    <a onClick={() => navigate(`/home`)}>
                         <img src={logoAcolhesp} alt="Logo" />
                     </a>
 
@@ -48,10 +54,10 @@ function Navbar(props) {
                             height: 50, 
                             alignItems: 'center',
                             p: '2px 5px',
-                            backgroundColor: 'transparent'}} onClick={() => navigate(`/perfil-doador/${props.id}`)}>
+                            backgroundColor: 'transparent'}} onClick={() => navigate(`/my-profile`)}>
                         
-                            <img src={imagemUser} alt="image" className="avatar" />
-                            <p style={{ position: 'relative', top: '0px', left: '5px' }}>{nomeUser}</p>
+                            <img src={fotoPadrao} alt="image" className="avatar" />
+                            <p style={{ position: 'relative', top: '0px', left: '10px' }}>{prepareName(participante.user.name)}</p>
 
                         </div>
 

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 import { InputBase, Button } from '@mui/material';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
 import FmdGoodIcon from '@mui/icons-material/FmdGood';
@@ -14,42 +14,58 @@ import { useParams } from "react-router-dom";
 import api from "../../api";
 
 function PerfilOng() {
-    
-    const [ participante, setParticipante ] = React.useState(null);
 
-    const [ ong, setOng ] = React.useState(null);
+    const [ ong, setOng ] = React.useState();
+    const [ publications, setPublications ] = React.useState();
 
-    const [ publications, setPublications ] = React.useState(null);
+    const participante = JSON.parse(sessionStorage.getItem('participante'));
 
     const { id } = useParams();
     
-    const imagemOng = props.imagem ? props.imagem : fotoPadrao;
+    const imagemOng = fotoPadrao;
     
-    useState(async ()=> {
-        
-        setParticipante(JSON.parse(sessionStorage.getItem('participante')));
+    useEffect(()=> {
 
-        setOng(await api.get(`/ngos/${id}`));
+        const getOng = async () => {
+            let resp = await api.get(`/ngos/${id}`).catch(console.error);
+            setOng(resp.data);
+        }
 
-        setPublications(await api.get(`/posts/${id}`));
-        
+        const getPostsOng = async () => {
+            let resp = await api.get(`/posts/publisher/${id}`).catch(console.error);
+            setPublications(resp.data);
+        }
+
+        getOng();
+        getPostsOng();
+
     }, []);
+
+    console.log(JSON.stringify(ong));
+    console.log(JSON.stringify(publications));
     
     document.title = 'Perfil';
 
     return (
         <>
-            <Navbar id={participante.user.id}/>
+            <Navbar/>
 
             <div className="container">
                 <div className="capa-ong">
                     <div className="content">
 
-                        <img src={imagemOng} alt="" className="img-ong"/>
-
+                        {
+                            ong !== undefined 
+                            ? <img src={imagemOng} alt="" className="img-ong"/>
+                            : <></>
+                        }
                         <div className="descricao">
                             <div className="inside-capa">
-                                <span>ONG Cão Sem Dono</span>
+                            {
+                                ong !== undefined 
+                                ? <span>{ong.name}</span>
+                                : <span>Cachorro sem dono</span>
+                            }
 
                                 <Button elevation={0} variant="follow" endIcon={<BookmarkIcon />}>
                                     Seguir
@@ -77,18 +93,19 @@ function PerfilOng() {
                 </div>
 
                 <div className="list-publications">
-                    {
-                        publications.map(pub => 
+                    {/* {
+                        publications !== undefined && ong !== undefined
+                        ? publications.map(pub => 
                             <Publication 
                             id= {pub.id}
-                            imagem={o}
+                            imagem={pub.imagem}
                             nome={ong.nome}
                             data= {pub.data}
                             descricao={pub.descricao}
                             imagemPublicacao={pub.imagem} 
-                            />
-                        )
-                    }
+                            />)
+                        : <></>
+                    } */}
                 </div>
 
             </div>

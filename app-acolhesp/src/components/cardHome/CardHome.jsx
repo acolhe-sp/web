@@ -30,8 +30,7 @@ function CardHome(props) {
 
   return (
     <>
-      <div className="card" onClick={() => navigate(`/${props.id_user}/perfil-ong/${props.id_ong}`)}>
-        <a href="">
+      <div className="card" onClick={() => navigate(`/perfil-ong/${props.id}`)}>
           <div className="header-card">
             
             <Rating name="half-rating-read" defaultValue={props.nota} precision={0.5} readOnly size="small" />
@@ -61,7 +60,6 @@ function CardHome(props) {
             
             <div className="categoria-card">{props.categoria}</div>
           </div>
-        </a>
       </div>
     </>
   );

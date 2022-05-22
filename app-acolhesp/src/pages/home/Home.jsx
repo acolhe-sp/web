@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import './Home.css';
 
@@ -16,35 +16,43 @@ import iconCultura from "../../images/network.png";
 import iconDefesa from "../../images/perfil.png";
 import iconHabit from "../../images/casa-limpa.png";
 import iconAmbiente from "../../images/planeta-terra.png";
-import { useNavigate, useParams } from "react-router-dom";
-
-
-const cardsFiltersGroup = [
-    <CardFilterContent image={iconDogs} name="Animais" />,
-    <CardFilterContent image={iconAssist} name="Assistência Social" />,
-    <CardFilterContent image={iconEduc} name="Educação e Pesquisa" />,
-    <CardFilterContent image={iconSaude} name="Saúde" />,
-    <CardFilterContent image={iconCultura} name="Cultura" />,
-    <CardFilterContent image={iconDefesa} name="Defesa de direitos" />,
-    <CardFilterContent image={iconHabit} name="Habitação" />,
-    <CardFilterContent image={iconAmbiente} name="Meio Ambiente" />
-];
+import api from "../../api";
 
 function Home() {
     document.title = 'Início';
 
-    const [ participante, setParticipante ] = React.useState(null);
+    // const participante = JSON.parse(sessionStorage.getItem('participante'));
 
-    useState(async ()=> {
+    const [ ongs, setOngs ] = React.useState();
+    const [ category, setCategory ] = React.useState();
 
-        setParticipante(JSON.parse(sessionStorage.getItem('participante')));
+    
+    useEffect(() => {
 
+        const getOngs = async () => {
+            let resp = await api.get(`/ngos/card-data`).catch(console.error);
+            setOngs(resp.data);
+        }
+
+        getOngs();
+        
     }, []);
+
+    const cardsFiltersGroup = [
+        <CardFilterContent image={iconDogs} name="Animais" onClickDo={() => setCategory(1)}/>,
+        <CardFilterContent image={iconAssist} name="Assistência Social" onClickDo={() => setCategory(2)}/>,
+        <CardFilterContent image={iconEduc} name="Educação e Pesquisa" onClickDo={() => setCategory(3)}/>,
+        <CardFilterContent image={iconSaude} name="Saúde" onClickDo={() => setCategory(4)}/>,
+        <CardFilterContent image={iconCultura} name="Cultura" onClickDo={() => setCategory(5)}/>,
+        <CardFilterContent image={iconDefesa} name="Defesa de direitos" onClickDo={() => setCategory(6)}/>,
+        <CardFilterContent image={iconHabit} name="Habitação" onClickDo={() => setCategory(7)}/>,
+        <CardFilterContent image={iconAmbiente} name="Meio Ambiente" onClickDo={() => setCategory(8)}/>
+    ];
 
 
     return (
         <>
-            <Navbar id={participante.user.id} />
+            <Navbar />
 
             <br />
 
@@ -59,45 +67,21 @@ function Home() {
 
                 <div className="list-ongs">
 
-                    <CardHome 
-                        id={2}
-                        nota={4}
-                        notificacoes={5}
-                        nome="SãoPet"
-                        descricao="Fundada apartir de um quintal, SãoPet é uma ONG na zona oeste de são paulo que foi tem o intuito de ajudar nossos amiguinhos a encontrar lar onde recebam muito amor e carinho. Existimos a mais de 20 anos ..."
-                        categoria="Animal" />
+                    {
+                        ongs !== undefined 
+                        ? ongs.map(ong => 
+                            <CardHome 
+                                id={ong.id}
+                                nota={ong.assessment}
+                                notificacoes={5}
+                                nome={ong.name}
+                                descricao={ong.description}
+                                categoria={ong.category.description} 
+                            />
+                        )
+                        : <></>
+                    }
 
-                    <CardHome 
-                        id={3}
-                        nota={4}
-                        notificacoes={5}
-                        nome="SãoPet"
-                        descricao="Fundada apartir de um quintal, SãoPet é uma ONG na zona oeste de são paulo que foi tem o intuito de ajudar nossos amiguinhos a encontrar lar onde recebam muito amor e carinho. Existimos a mais de 20 anos ..."
-                        categoria="Animal" />
-
-                    <CardHome 
-                        id={4}
-                        nota={4}
-                        notificacoes={5}
-                        nome="SãoPet"
-                        descricao="Fundada apartir de um quintal, SãoPet é uma ONG na zona oeste de são paulo que foi tem o intuito de ajudar nossos amiguinhos a encontrar lar onde recebam muito amor e carinho. Existimos a mais de 20 anos ..."
-                        categoria="Animal" />
-
-                    <CardHome
-                        id={5}
-                        nota={4}
-                        notificacoes={5}
-                        nome="SãoPet"
-                        descricao="Fundada apartir de um quintal, SãoPet é uma ONG na zona oeste de são paulo que foi tem o intuito de ajudar nossos amiguinhos a encontrar lar onde recebam muito amor e carinho. Existimos a mais de 20 anos ..."
-                        categoria="Animal" />
-
-                    <CardHome
-                        id={6}
-                        nota={4}
-                        notificacoes={5}
-                        nome="SãoPet"
-                        descricao="Fundada apartir de um quintal, SãoPet é uma ONG na zona oeste de são paulo que foi tem o intuito de ajudar nossos amiguinhos a encontrar lar onde recebam muito amor e carinho. Existimos a mais de 20 anos ..."
-                        categoria="Animal" />
 
                 </div>
             
