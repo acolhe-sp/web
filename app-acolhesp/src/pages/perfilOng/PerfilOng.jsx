@@ -77,14 +77,18 @@ function PerfilOng() {
                                 id="standard-multiline-static"
                                 multiline
                                 rows={3}
-                                defaultValue="Atualmente cuidamos diariamente de quase 500 cães. Toda ajuda é sempre bem-vinda."
+                                defaultValue={ong ? ong.description : ""}
                                 readOnly={true}
                                 variant="descricao-perfil"
                             />
 
                             <div className="fix-align-local-button">
                                 <Button elevation={0} variant="local" startIcon={<FmdGoodIcon />}>
-                                    Itapecirica da Serra, Brasil
+                                    {
+                                    ong 
+                                        ? `${ong.address.city}, ${ong.address.state} - Rua ${ong.address.street} nº${ong.address.number}` 
+                                        : ""
+                                    }
                                 </Button>
                             </div>
                         </div>

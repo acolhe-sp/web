@@ -49,7 +49,12 @@ function Login() {
 
       sessionStorage.setItem("participante", JSON.stringify(res.data));
 
-      navigate(`/home`);
+      if(res.data.user.userType === "USER_DONOR") {
+        navigate(`/home`);
+      } else {
+        navigate(`/dashboard`);
+      }
+
 
     } catch (err) {
       console.error(err);

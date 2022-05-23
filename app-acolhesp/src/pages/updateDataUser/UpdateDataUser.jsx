@@ -50,10 +50,12 @@ function UpdateDataUser() {
     const [complemento, setComplemento] = useState("");
   
     const [estado, setEstado] = useState("");
+
+    const isDonor = participante && participante.user.userType === "USER_DONOR";
   
     async function updateData() {
 
-        if (participante && participante.user.userType === "USER_DONOR") {
+        if (isDonor) {
             try {
                 await api.put(`/donors/${participante.donor.id}`, {
                   img: imagem,
@@ -80,7 +82,7 @@ function UpdateDataUser() {
               catch (err) {
                 alert('Erro: ' + err.response.status);
               }
-        } else if(participante && participante.user.userType === "USER_NGO") {
+        } else {
             try {
                 await api.put(`/ngos/${participante.ngo.id}`, {
                   img: imagem,
@@ -102,7 +104,7 @@ function UpdateDataUser() {
 
                 await resetUserSession(participante.user.id);
           
-                navigate('/home');
+                navigate('/dashboard');
             }
             catch (err) {
             alert('Erro: ' + err.response.status);
@@ -123,7 +125,7 @@ function UpdateDataUser() {
 
     return (
         <>
-            <Navbar />
+            <Navbar ong={!isDonor}/>
 
             <br />
 
@@ -162,7 +164,7 @@ function UpdateDataUser() {
                             sx={textStyle}
                         />
                         {
-                            participante && participante.user.userType === "USER_DONOR"
+                            isDonor
                             ? [
                                 <TextField
                                     label="Registro Geral"
@@ -298,7 +300,7 @@ function UpdateDataUser() {
                     <div className="btn-group">
                         <Button
                             variant="navbar"
-                            onClick={() => navigate("/home")}
+                            onClick={() => isDonor ? navigate("/home") : navigate("/dashboard")}
                         >
                             <b>Cancelar</b>
                         </Button>

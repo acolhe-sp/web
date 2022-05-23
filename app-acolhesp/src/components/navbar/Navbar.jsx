@@ -13,7 +13,7 @@ import PopFunctionNav from '../popFunctionsNav/PopFunctionsNav';
 import fotoPadrao from '../../images/profileavatar.png';
 import prepareName from '../../utils/prepareName';
 
-function Navbar() {
+function Navbar(props) {
 
     const participante = JSON.parse(sessionStorage.getItem('participante'));
 
@@ -31,9 +31,15 @@ function Navbar() {
             <div className="container">
                 <div className="content-nav">
                 
-                    <a onClick={() => navigate(`/home`)}>
-                        <img src={logoAcolhesp} alt="Logo" />
-                    </a>
+                    {
+                        props.ong 
+                        ?<a onClick={() => navigate(`/dashboard`)}>
+                            <img src={logoAcolhesp} alt="Logo" />
+                        </a>
+                        :<a onClick={() => navigate(`/home`)}>
+                            <img src={logoAcolhesp} alt="Logo" />
+                        </a>
+                    }
 
                     <Searcher />
 
@@ -55,7 +61,7 @@ function Navbar() {
                             alignItems: 'center',
                             p: '2px 5px',
                             cursor: 'pointer',
-                            backgroundColor: 'transparent'}} onClick={() => navigate(`/my-profile`)}>
+                            backgroundColor: 'transparent'}} onClick={() => props.ong ? navigate(`/dashboard`) :navigate(`/my-profile`)}>
                         
                             <img src={fotoPadrao} alt="image" className="avatar" />
                             <p style={{ position: 'relative', top: '0px', left: '10px' }}>{prepareName(participante.user.name)}</p>

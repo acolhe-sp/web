@@ -61,6 +61,10 @@
     left: -13px;
 }
 
+.fix-align-local-button button{
+    width: 30vw;
+}
+
 .list-publications {
     position: relative;
     
