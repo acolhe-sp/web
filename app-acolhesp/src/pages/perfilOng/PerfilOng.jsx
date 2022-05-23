@@ -80,7 +80,7 @@ function PerfilOng() {
                                 defaultValue={ong ? ong.description : ""}
                                 readOnly={true}
                                 variant="descricao-perfil"
-                            />
+                            />  
 
                             <div className="fix-align-local-button">
                                 <Button elevation={0} variant="local" startIcon={<FmdGoodIcon />}>
@@ -97,19 +97,19 @@ function PerfilOng() {
                 </div>
 
                 <div className="list-publications">
-                    {/* {
-                        publications !== undefined && ong !== undefined
+                    {
+                        publications !== undefined && publications !== null
                         ? publications.map(pub => 
                             <Publication 
-                            id= {pub.id}
-                            imagem={pub.imagem}
-                            nome={ong.nome}
-                            data= {pub.data}
-                            descricao={pub.descricao}
-                            imagemPublicacao={pub.imagem} 
+                                id= {pub.id}
+                                imagem={pub.ngo.user ? pub.ngo.user.img : ""}
+                                nome={pub.ngo.user.name}
+                                data= {pub.dateTime}
+                                descricao={pub.description}
+                                imagemPublicacao={pub.img} 
                             />)
                         : <></>
-                    } */}
+                    }
                 </div>
 
             </div>

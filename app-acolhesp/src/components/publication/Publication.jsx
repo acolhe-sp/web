@@ -5,26 +5,17 @@ import { InputBase } from '@mui/material';
 import './Publication.css';
 
 import fotoPadrao from '../../images/profileavatar.png';
-import fotoPubliMock from '../../images/filhotesAdocao.jpg';
 
 import iconUnlike from '../../images/unlike.png';
 import iconLike from '../../images/like.png';
 import PopComentsPublication from "../popComentsPublication/PopComentsPublication";
+import prepareDataHora from "../../utils/prepareDataHora";
 
 function Publication(props) {
 
-    const publicationMock = {
-        id: 1,
-        imagem: props.imagem ? props.imagem : fotoPadrao,
-        nome: 'Cão Sem Dono',
-        data: '6 de maio',
-        descricao: 'SÁBADO, DIA 7, TEM EVENTO DE ADOÇÃO NO IPIRANGA, SP. E vai ser lá no Auto Shopping Bandeirantes, localizado na Avenida Presidente Tancredo Neves, 600, Ipiranga, São Paulo, das 10 às 16 horas. Todos os cães castrados, com vacinas e exames em dia. Não cobramos nenhuma taxa de adoção. O Windy, foto, é um dos cães que estarão lá aguardandomuito por um lar e uma família.',
-        imagemPublicacao: fotoPubliMock
-    }
-
     const [liked, setLiked] = React.useState(false);
 
-    const idPubli = `publi${publicationMock.id}`;
+    const idPubli = `publi${props.id}`;
     
     const iconLikeState = liked ? iconLike : iconUnlike;
 
@@ -34,11 +25,24 @@ function Publication(props) {
 
                 <div className="header-publi">
 
-                    <img src={publicationMock.imagem} alt="imagem ONG" className="img-ong"/>
+                    {
+                        <img src={props.imagem ? props.imagem : fotoPadrao} alt="imagem ONG" className="img-ong"/>
+                    }
 
                     <div className="ong-name-data">
-                        <p>{publicationMock.nome}</p>
-                        <span>{publicationMock.data}</span>
+
+                        {
+                            props.nome 
+                            ?<p>{props.nome}</p>
+                            :<></>
+                        }
+
+                        {
+                            props.data 
+                            ?<span>{prepareDataHora(props.data)}</span>
+                            :<></>
+                        }
+                        
                     </div>
 
                 </div>
@@ -47,14 +51,18 @@ function Publication(props) {
                     id="standard-multiline-static"
                     multiline
                     rows={6}
-                    defaultValue={publicationMock.descricao}
+                    defaultValue={props.descricao}
                     readOnly={true}
                     variant="descricao-publi"
                 />
 
-                <div className="container-img-publi">
-                    <img src={publicationMock.imagemPublicacao} alt="" />
-                </div>
+                {
+                    props.imagemPublicacao != null && props.imagemPublicacao != undefined
+                    ?<div className="container-img-publi">
+                        <img src={props.imagemPublicacao} alt="" />
+                    </div>
+                    :<span></span>
+                }
 
                 <div className="dinamic-items-publi">
 
