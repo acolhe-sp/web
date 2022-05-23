@@ -14,15 +14,21 @@ export default function GroupButtonsNavbar() {
 
     sessionStorage.removeItem('participante');
   
-    navigate('/login');
+    navigate('/');
+  
+  }
+
+  function config() {
+  
+    navigate('/update-user');
   
   }
 
   const buttons = [
-    <Button elevation={0} variant="navbar" endIcon={<SettingsSuggestIcon />}>
+    <Button elevation={0} variant="navbar" endIcon={<SettingsSuggestIcon onClick={() => { config() }}/> }>
       Config.
     </Button>,
-    <Button elevation={0} variant="navbar" endIcon={<LogoutIcon />} onClick={logout()}>
+    <Button elevation={0} variant="navbar" endIcon={<LogoutIcon />} onClick={() => { logout() }}>
       Logout
     </Button>
 ];

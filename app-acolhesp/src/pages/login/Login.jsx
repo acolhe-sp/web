@@ -47,8 +47,6 @@ function Login() {
 
       sessionStorage.setItem("participante", JSON.stringify(res.data));
 
-      console.log('res.data: '+ res.data)
-
       navigate(`/home`);
 
     } catch (err) {

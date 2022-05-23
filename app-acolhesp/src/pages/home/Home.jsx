@@ -31,7 +31,7 @@ function Home() {
 
         const getOngs = async () => {
             let resp = await api.get(`/ngos/card-data`).catch(console.error);
-            setOngs(resp.data);
+            setOngs(resp.data || []);
         }
 
         getOngs();

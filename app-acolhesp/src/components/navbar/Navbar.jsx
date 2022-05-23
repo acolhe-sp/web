@@ -54,6 +54,7 @@ function Navbar() {
                             height: 50, 
                             alignItems: 'center',
                             p: '2px 5px',
+                            cursor: 'pointer',
                             backgroundColor: 'transparent'}} onClick={() => navigate(`/my-profile`)}>
                         
                             <img src={fotoPadrao} alt="image" className="avatar" />

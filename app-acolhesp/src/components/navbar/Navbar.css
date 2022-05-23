@@ -18,6 +18,7 @@ nav {
 .content-nav a {
     margin: 0px;
     text-decoration: none;
+    cursor: pointer;
 }
 
 .content-nav a img{
