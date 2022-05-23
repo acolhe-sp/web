@@ -46,6 +46,9 @@ function DonorRegister() {
   const [estado, setEstado] = useState("");
 
   async function register() {
+
+    document.title = 'Cadastro';
+
     try {
       const res = await api.post('/donors', {
         img: "teste.jpg",

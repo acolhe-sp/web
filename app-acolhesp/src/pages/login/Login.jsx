@@ -18,6 +18,8 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 
 function Login() {
 
+  document.title = 'Login';
+
   const [openSuccessAlert, setOpenSuccessAlert] = useState(false);
   const [openFailedAlert, setOpenFailedAlert] = useState(false);
   

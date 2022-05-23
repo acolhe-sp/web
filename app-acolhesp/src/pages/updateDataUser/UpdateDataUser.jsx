@@ -11,6 +11,7 @@ import { styled } from '@mui/material/styles';
 import "./UpdateDataUser.css";
 
 import emptyAvatar from '../../images/empty-avatar.png';
+import resetUserSession from "../../utils/resetUserSession";
 
 const Input = styled('input')({
     display: 'none',
@@ -34,6 +35,9 @@ function UpdateDataUser() {
     const [cpf, setCpf] = useState("");
     const [email, setEmail] = useState("");
     const [emailConfirmado, setEmailConfirmado] = useState("");
+
+    const [cnpj, setCnpj] = useState("");
+    const [descricao, setDescricao] = useState("");
   
     const [senha, setSenha] = useState("");
     const [senhaConfirmada, setSenhaConfirmada] = useState("");
@@ -49,9 +53,9 @@ function UpdateDataUser() {
   
     async function updateData() {
 
-        if (participante && participante.user.userType == "USER_DONOR") {
+        if (participante && participante.user.userType === "USER_DONOR") {
             try {
-                const res = await api.put(`/donors/${participante.donor.id}`, {
+                await api.put(`/donors/${participante.donor.id}`, {
                   img: imagem,
                   name: nome,
                   email,
@@ -68,12 +72,41 @@ function UpdateDataUser() {
                   rg,
                   cpf,
                 });
+
+                await resetUserSession(participante.user.id);
           
                 navigate('/home');
               }
               catch (err) {
                 alert('Erro: ' + err.response.status);
               }
+        } else if(participante && participante.user.userType === "USER_NGO") {
+            try {
+                await api.put(`/ngos/${participante.ngo.id}`, {
+                  img: imagem,
+                  name: nome,
+                  email,
+                  password: senha,
+                  addressDTO: {
+                    state: estado,
+                    city: cidade,
+                    district: bairro,
+                    cep,
+                    street: rua,
+                    number: numero,
+                    complement: complemento
+                  },
+                  cnpj,
+                  descricao
+                });
+
+                await resetUserSession(participante.user.id);
+          
+                navigate('/home');
+            }
+            catch (err) {
+            alert('Erro: ' + err.response.status);
+            }
         }
 
     }
@@ -128,21 +161,44 @@ function UpdateDataUser() {
                             onChange={(e) => setNome(e.target.value)}
                             sx={textStyle}
                         />
-                        <TextField
-                            label="Registro Geral"
-                            variant="filled"
-                            select={false}
-                            size="small"
-                            onChange={(e) => setRg(e.target.value)}
-                            sx={textStyle}
-                        />
-                        <TextField
-                            label="CPF"
-                            variant="filled"
-                            size="small"
-                            onChange={(e) => setCpf(e.target.value)}
-                            sx={textStyle}
-                        />
+                        {
+                            participante && participante.user.userType === "USER_DONOR"
+                            ? [
+                                <TextField
+                                    label="Registro Geral"
+                                    variant="filled"
+                                    select={false}
+                                    size="small"
+                                    onChange={(e) => setRg(e.target.value)}
+                                    sx={textStyle}
+                                />,
+                                <TextField
+                                    label="CPF"
+                                    variant="filled"
+                                    size="small"
+                                    onChange={(e) => setCpf(e.target.value)}
+                                    sx={textStyle}
+                                />
+                             ]
+                            :[
+                                <TextField
+                                    label="CNPJ"
+                                    variant="filled"
+                                    select={false}
+                                    size="small"
+                                    onChange={(e) => setCnpj(e.target.value)}
+                                    sx={textStyle}
+                                />,
+                                <TextField
+                                    label="Descrição"
+                                    variant="filled"
+                                    size="small"
+                                    onChange={(e) => setDescricao(e.target.value)}
+                                    sx={textStyle}
+                                />
+                            ]
+
+                        }
                         <TextField
                             label="E-mail"
                             type="email"
