@@ -9,7 +9,6 @@ function NotFound() {
     const navigate = useNavigate();
 
     return(
-        <>
         <div className="content-404">
             <div className="face">
                 <div className="band">
@@ -25,7 +24,6 @@ function NotFound() {
             <h1>Oops! Página não encontrada!</h1>
             <div className="btn" onClick={() => navigate("/")}>Voltar ao Log-in</div>
         </div>
-        </>
     );
 }
 
