@@ -1,0 +1,93 @@
+
+.content-update {
+    margin: 0 auto;
+
+    margin-top: -7vh;
+    height: 79vh;
+    width: 64vw;
+}
+
+.content-update form {
+    display: flex;
+    flex-direction: column;
+}
+
+.upload-avatar img {
+    width: 120px;
+    cursor: pointer;
+}
+
+.content-update .form-signup-donor h2 {
+    margin-top: 16px;
+    margin-bottom: 0;
+    font-weight: 400;
+    text-align: center;
+    justify-content: center;
+}
+
+.content-update .form-signup-donor img {
+    width: 80px;
+    justify-content: center;
+    margin-bottom: 16px;
+}
+
+
+
+.upload-avatar .buttons {
+   margin-left: 44px;
+}
+
+.input-upload-avatar {
+    justify-content: center;
+    margin-left: 48px;
+}
+
+.input-group {
+    align-items: flex-start;
+    width: 100%;
+    margin: 8px auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.input-group div {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.input-group p {
+    margin-bottom: 8px;
+}
+
+.btn-group {
+    margin: 0 auto;
+    width: 30%;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.btn-group button {
+    margin-top: 5vh;
+    width: 150px;
+}
+
+.select-uf {
+    margin-top: 10px;
+    width: 6rem;
+}
+
+.select-uf option {
+    text-align: center;
+}
+
+.gambeta {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+button {
+    letter-spacing: 2px;
+}

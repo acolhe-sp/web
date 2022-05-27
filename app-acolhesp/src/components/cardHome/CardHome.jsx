@@ -23,7 +23,7 @@ function CardHome(props) {
   const imagemOng = props.imagem ? props.imagem : fotoPadrao;
 
   const hasNotificacoes = props.notificacoes 
-    ? <div class="news"><p>{props.notificacoes}</p></div>
+    ? <div className="news"><p>{props.notificacoes}</p></div>
     : '';
 
   const navigate = useNavigate();
@@ -31,7 +31,6 @@ function CardHome(props) {
   return (
     <>
       <div className="card" onClick={() => navigate(`/perfil-ong/${props.id}`)}>
-        <a href="">
           <div className="header-card">
             
             <Rating name="half-rating-read" defaultValue={props.nota} precision={0.5} readOnly size="small" />
@@ -51,7 +50,7 @@ function CardHome(props) {
               multiline
               rows={5}
               defaultValue={props.descricao}
-              readOnly='true'
+              readOnly={true}
               sx={{
                 marginTop: '5px',
                 width: '90%',
@@ -61,7 +60,6 @@ function CardHome(props) {
             
             <div className="categoria-card">{props.categoria}</div>
           </div>
-        </a>
       </div>
     </>
   );

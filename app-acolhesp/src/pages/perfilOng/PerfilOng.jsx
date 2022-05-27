@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { InputBase, Button } from '@mui/material';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
 import FmdGoodIcon from '@mui/icons-material/FmdGood';
@@ -10,26 +10,64 @@ import './PerfilOng.css';
 
 import fotoPadrao from '../../images/profileavatar.png';
 import Publication from "../../components/publication/Publication";
+import { useParams } from "react-router-dom";
+import api from "../../api";
 
-function PerfilOng(props) {
+function PerfilOng() {
 
-    const imagemOng = props.imagem ? props.imagem : fotoPadrao;
+    const [ ong, setOng ] = React.useState();
+    const [ publications, setPublications ] = React.useState();
+
+    const participante = JSON.parse(sessionStorage.getItem('participante'));
+
+    const { id } = useParams();
+    
+    const imagemOng = fotoPadrao;
+    
+    useEffect(()=> {
+
+        const getOng = async () => {
+            let resp = await api.get(`/ngos/${id}`).catch(console.error);
+            setOng(resp.data);
+        }
+
+        const getPostsOng = async () => {
+            let resp = await api.get(`/posts/publisher/${id}`).catch(console.error);
+            setPublications(resp.data);
+        }
+
+        getOng();
+        getPostsOng();
+
+    }, []);
+
+    console.log(JSON.stringify(ong));
+    console.log(JSON.stringify(publications));
+    
+    document.title = 'Perfil';
 
     return (
         <>
-            <Navbar />
+            <Navbar/>
 
             <div className="container">
                 <div className="capa-ong">
                     <div className="content">
 
-                        <img src={imagemOng} alt="" className="img-ong"/>
-
+                        {
+                            ong !== undefined 
+                            ? <img src={imagemOng} alt="" className="img-ong"/>
+                            : <></>
+                        }
                         <div className="descricao">
                             <div className="inside-capa">
-                                <span>ONG Cão Sem Dono</span>
+                            {
+                                ong !== undefined 
+                                ? <span>{ong.name}</span>
+                                : <span>Cachorro sem dono</span>
+                            }
 
-                                <Button elevation='0' variant="follow" endIcon={<BookmarkIcon />}>
+                                <Button elevation={0} variant="follow" endIcon={<BookmarkIcon />}>
                                     Seguir
                                 </Button>
                                 
@@ -39,14 +77,18 @@ function PerfilOng(props) {
                                 id="standard-multiline-static"
                                 multiline
                                 rows={3}
-                                defaultValue="Atualmente cuidamos diariamente de quase 500 cães. Toda ajuda é sempre bem-vinda."
-                                readOnly='true'
+                                defaultValue={ong ? ong.description : ""}
+                                readOnly={true}
                                 variant="descricao-perfil"
-                            />
+                            />  
 
                             <div className="fix-align-local-button">
-                                <Button elevation='0' variant="local" startIcon={<FmdGoodIcon />}>
-                                    Itapecirica da Serra, Brasil
+                                <Button elevation={0} variant="local" startIcon={<FmdGoodIcon />}>
+                                    {
+                                    ong 
+                                        ? `${ong.address.city}, ${ong.address.state} - Rua ${ong.address.street} nº${ong.address.number}` 
+                                        : ""
+                                    }
                                 </Button>
                             </div>
                         </div>
@@ -55,9 +97,19 @@ function PerfilOng(props) {
                 </div>
 
                 <div className="list-publications">
-
-                    <Publication />
-
+                    {
+                        publications !== undefined && publications !== null
+                        ? publications.map(pub => 
+                            <Publication 
+                                id= {pub.id}
+                                imagem={pub.ngo.user ? pub.ngo.user.img : ""}
+                                nome={pub.ngo.user.name}
+                                data= {pub.dateTime}
+                                descricao={pub.description}
+                                imagemPublicacao={pub.img} 
+                            />)
+                        : <></>
+                    }
                 </div>
 
             </div>

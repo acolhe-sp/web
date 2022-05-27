@@ -18,6 +18,8 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 
 function Login() {
 
+  document.title = 'Login';
+
   const [openSuccessAlert, setOpenSuccessAlert] = useState(false);
   const [openFailedAlert, setOpenFailedAlert] = useState(false);
   
@@ -44,6 +46,15 @@ function Login() {
       });
 
       setOpenSuccessAlert(true);
+
+      sessionStorage.setItem("participante", JSON.stringify(res.data));
+
+      if(res.data.user.userType === "USER_DONOR") {
+        navigate(`/home`);
+      } else {
+        navigate(`/dashboard`);
+      }
+
 
     } catch (err) {
       console.error(err);

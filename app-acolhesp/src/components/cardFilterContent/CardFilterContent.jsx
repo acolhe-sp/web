@@ -1,4 +1,3 @@
-import { Paper, Typography } from "@material-ui/core";
 import React from "react";
 
 import './CardFilterContent.css';
@@ -6,8 +5,8 @@ import './CardFilterContent.css';
 function CardFilterContent(props) {
     return(
     <>
-        <div className="content-card-filter">
-            <img src={props.image} alt="image"/>
+        <div className="content-card-filter" onClick={props.onClickDo}>
+            <img src={props.image}/>
 
             <p>{props.name}</p>            
         </div>

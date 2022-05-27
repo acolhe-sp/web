@@ -1,29 +1,45 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import logoAcolhesp from '../../images/logoWithTitle.svg';
-import fotoPadrao from '../../images/profileavatar.png';
 
 import Searcher from '../searcher/Seacher';
+
+import { useNavigate } from "react-router-dom";
 
 import './Navbar.css';
 import { Paper } from '@mui/material';
 import PopFunctionNav from '../popFunctionsNav/PopFunctionsNav';
 
+import fotoPadrao from '../../images/profileavatar.png';
+import prepareName from '../../utils/prepareName';
+
 function Navbar(props) {
 
-    const imagemUser = props.imagem ? props.imagem : fotoPadrao;
+    const participante = JSON.parse(sessionStorage.getItem('participante'));
 
-    const nomeUser = props.nome ? props.nome : 'Kelly Sandra';
+    useEffect(() => {
+
+
+
+    }, [])
+
+    const navigate = useNavigate();
 
     return (
         <>
         <nav>
             <div className="container">
-                <div class="content-nav">
+                <div className="content-nav">
                 
-                    <a href="/home">
-                        <img src={logoAcolhesp} alt="Logo" />
-                    </a>
+                    {
+                        props.ong 
+                        ?<a onClick={() => navigate(`/dashboard`)}>
+                            <img src={logoAcolhesp} alt="Logo" />
+                        </a>
+                        :<a onClick={() => navigate(`/home`)}>
+                            <img src={logoAcolhesp} alt="Logo" />
+                        </a>
+                    }
 
                     <Searcher />
 
@@ -36,10 +52,21 @@ function Navbar(props) {
                             p: '2px 5px',
                             backgroundColor: 'transparent'
                         }}
-                        elevation='0'
+                        elevation={0}
                     >
-                        <img src={imagemUser} alt="image" className="avatar" />
-                        <p style={{ position: 'relative', top: '0px', left: '5px' }}>{nomeUser}</p>
+                        <div style={{
+                            display: 'flex', 
+                            width: 200, 
+                            height: 50, 
+                            alignItems: 'center',
+                            p: '2px 5px',
+                            cursor: 'pointer',
+                            backgroundColor: 'transparent'}} onClick={() => props.ong ? navigate(`/dashboard`) :navigate(`/my-profile`)}>
+                        
+                            <img src={fotoPadrao} alt="image" className="avatar" />
+                            <p style={{ position: 'relative', top: '0px', left: '10px' }}>{prepareName(participante.user.name)}</p>
+
+                        </div>
 
                         <PopFunctionNav />
 
