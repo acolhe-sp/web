@@ -12,6 +12,7 @@ import "./UpdateDataUser.css";
 
 import emptyAvatar from '../../images/empty-avatar.png';
 import resetUserSession from "../../utils/resetUserSession";
+import { padding } from "@mui/system";
 
 const Input = styled('input')({
     display: 'none',
@@ -157,6 +158,7 @@ function UpdateDataUser() {
                         <TextField
                             label="Nome completo"
                             variant="filled"
+                            defaultValue={participante ? participante.user.name : ''}
                             select={false}
                             size="small"
                             autoComplete="no"
@@ -169,6 +171,7 @@ function UpdateDataUser() {
                                 <TextField
                                     label="Registro Geral"
                                     variant="filled"
+                                    defaultValue={participante ? participante.donor.rg : ''}
                                     select={false}
                                     size="small"
                                     onChange={(e) => setRg(e.target.value)}
@@ -176,6 +179,7 @@ function UpdateDataUser() {
                                 />,
                                 <TextField
                                     label="CPF"
+                                    defaultValue={participante ? participante.donor.cpf : ''}
                                     variant="filled"
                                     size="small"
                                     onChange={(e) => setCpf(e.target.value)}
@@ -186,6 +190,7 @@ function UpdateDataUser() {
                                 <TextField
                                     label="CNPJ"
                                     variant="filled"
+                                    defaultValue={participante ? participante.ngo.cnpj : ''}
                                     select={false}
                                     size="small"
                                     onChange={(e) => setCnpj(e.target.value)}
@@ -194,6 +199,8 @@ function UpdateDataUser() {
                                 <TextField
                                     label="Descrição"
                                     variant="filled"
+                                    defaultValue={participante ? participante.ngo.description : ''}
+                                    default
                                     size="small"
                                     onChange={(e) => setDescricao(e.target.value)}
                                     sx={textStyle}
@@ -205,6 +212,7 @@ function UpdateDataUser() {
                             label="E-mail"
                             type="email"
                             variant="filled"
+                            defaultValue={participante ? participante.user.email : ''}
                             size="small"
                             select={false}
                             onChange={(e) => setEmail(e.target.value)}
@@ -242,6 +250,7 @@ function UpdateDataUser() {
                         <TextField
                             label="CEP"
                             variant="filled"
+                            defaultValue={participante ? participante.user.address.cep : ''}
                             size="small"
                             onChange={(e) => setCep(e.target.value)}
                             sx={textStyle}
@@ -250,15 +259,16 @@ function UpdateDataUser() {
                         <TextField
                             label="Rua"
                             variant="filled"
+                            defaultValue={participante ? participante.user.address.street : ''}
                             size="small"
                             onChange={(e) => setRua(e.target.value)}
                             sx={textStyle}
                         />
 
-
                         <TextField
                             label="Número"
                             variant="filled"
+                            defaultValue={participante ? participante.user.address.number : ''}
                             size="small"
                             onChange={(e) => setNumero(e.target.value)}
                             sx={textStyle}
@@ -267,6 +277,7 @@ function UpdateDataUser() {
                         <TextField
                             label="Cidade"
                             variant="filled"
+                            defaultValue={participante ? participante.user.address.city : ''}
                             size="small"
                             onChange={(e) => setCidade(e.target.value)}
                             sx={textStyle}
@@ -274,6 +285,7 @@ function UpdateDataUser() {
                         <TextField
                             label="Bairro"
                             variant="filled"
+                            defaultValue={participante ? participante.user.address.district : ''}
                             size="small"
                             onChange={(e) => setBairro(e.target.value)}
                             sx={textStyle}
@@ -281,12 +293,14 @@ function UpdateDataUser() {
                         <TextField
                             label="Complemento"
                             variant="filled"
+                            defaultValue={participante ? participante.user.address.complement : ''}
                             size="small"
                             onChange={(e) => setComplemento(e.target.value)}
                             sx={textStyle}
                         />
 
-                        <NativeSelect onChange={(e) => setEstado(e.target.value)} className="select-uf">
+                        <NativeSelect defaultValue={<option value={participante ? participante.user.address.state : ''}>{participante ? participante.user.address.state : ''}</option>} 
+                        onChange={(e) => setEstado(e.target.value)} className="select-uf">
                             <option disabled selected>Estado</option>
                             {
                             ufs.map(uf => {

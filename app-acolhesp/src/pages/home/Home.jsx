@@ -22,16 +22,12 @@ import api from "../../api";
 function Home() {
     document.title = 'Início';
 
-    // const participante = JSON.parse(sessionStorage.getItem('participante'));
-
     const [ ongs, setOngs ] = React.useState();
     const [ category, setCategory ] = React.useState();
     
     useEffect(() => {
 
-        console.log("caiur");
-
-        const getOngs = category && category != 0
+        const getOngs = category && category !== 0
                         ? async () => {
                             let resp = await api.get(`/ngos/categorias/${category}`).catch(console.error);
                             setOngs(resp.data || []);
