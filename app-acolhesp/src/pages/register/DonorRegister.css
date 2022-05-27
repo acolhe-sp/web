@@ -40,14 +40,29 @@
   background-color: #fff;
 }
 
+.form-signup-ong {
+  width: 50%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #fff;
+}
+
 form {
   display: flex;
   justify-content: center !important;
   flex-direction: column;
 }
 
-
 .form-signup-donor h2 {
+  margin-top: 16px;
+  margin-bottom: 0;
+  font-weight: 400;
+  text-align: center;
+  justify-content: center;
+}
+
+.form-signup-ong h2 {
   margin-top: 16px;
   margin-bottom: 0;
   font-weight: 400;
@@ -61,9 +76,16 @@ form {
   margin-bottom: 16px;
 }
 
+.form-signup-ong img {
+  width: 80px;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
 .upload-avatar {
   display: flex;
   justify-content: center;
+  align-items: center;
   flex-direction: column;
   height: 23vh;
 }
@@ -99,7 +121,7 @@ form {
 }
 
 .btn-group button {
-  margin-top: 0;
+  margin-top: 16px;
   width: 300px;
 }
 
@@ -112,6 +134,15 @@ form {
   text-align: center;
 }
 
+.select-category {
+  margin-top: 10px;
+  width: 13rem;
+}
+
+.select-category option {
+  text-align: center;
+}
+
 .gambeta {
   display: flex;
   flex-direction: row;
@@ -120,4 +151,47 @@ form {
 
 button {
   letter-spacing: 2px;
+}
+
+.mui-btn-group {
+  display: flex;
+  z-index: 4;
+  width: 100px;
+  height: 5ch;
+  justify-content: center;
+  margin-top: 16px;
+}
+
+.bold {
+  font-weight: bolder;
+}
+
+.mui-btn img {
+  width: 28px;
+}
+
+.toggle-btn {
+  display: flex;
+  height: 0;
+  width: 0;
+  justify-content: center;
+}
+
+.toggle-btn button:hover {
+  cursor: pointer;
+}
+
+
+#main.fadeIn {
+  opacity: 1;
+  transition: opacity .5s;
+}
+
+#main.fadeOut {
+  opacity: 0;
+  transition: opacity .5s;
+}
+
+.hide {
+  display: none;
 }
