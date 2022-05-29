@@ -6,10 +6,6 @@ input, select {
     outline: none;
 }
 
-body {
-    background-color: #949494;
-}
-
 .modal-frame {
     width: 510px;
     height: 450px;
@@ -40,7 +36,6 @@ body {
 .donor-info p {
     font-weight: 400;
     font-size: 11px;
-    /* text-align: center; */
 }
 
 .donor-info img {
