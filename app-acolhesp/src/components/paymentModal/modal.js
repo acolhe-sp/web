@@ -56,3 +56,15 @@ function showTransferForm() {
         document.getElementById("cancel-confirm").style.display = "flex";
     }
 }
+
+function focusColor(inputId) {
+    const selectedInput = document.getElementById(inputId);
+
+    selectedInput.addEventListener('focusin', () => {
+        selectedInput.className = 'input-selected'
+    })
+
+    selectedInput.addEventListener('focusout', () => {
+        selectedInput.className = 'input-default'
+    })
+}
