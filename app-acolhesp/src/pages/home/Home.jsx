@@ -18,6 +18,7 @@ import iconHabit from "../../images/casa-limpa.png";
 import iconAmbiente from "../../images/planeta-terra.png";
 import iconAll from "../../images/all.png";
 import api from "../../api";
+import getImageBanco from "../../utils/getImageUser";
 
 function Home() {
     document.title = 'Início';
@@ -73,11 +74,11 @@ function Home() {
 
                     {
                         ongs !== undefined 
-                        ? ongs.map(ong => 
+                        ? ongs.map(ong =>
                             <CardHome 
                                 id={ong.id}
                                 nota={ong.assessment}
-                                notificacoes={5}
+                                imagem={ong.idUser}
                                 nome={ong.name}
                                 descricao={ong.description}
                                 categoria={ong.category.description} 

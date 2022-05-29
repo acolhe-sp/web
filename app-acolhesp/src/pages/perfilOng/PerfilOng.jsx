@@ -12,10 +12,12 @@ import fotoPadrao from '../../images/profileavatar.png';
 import Publication from "../../components/publication/Publication";
 import { useParams } from "react-router-dom";
 import api from "../../api";
+import getImageBanco from "../../utils/getImageUser";
 
 function PerfilOng() {
 
-    const [ ong, setOng ] = React.useState();
+    const [ imagem, setImagem ] = React.useState();
+    const [ ong, setOng ] = React.useState('');
     const [ publications, setPublications ] = React.useState();
     const [ follower, isFollower ] = React.useState();
 
@@ -23,19 +25,23 @@ function PerfilOng() {
 
     const { id } = useParams();
     
-    const imagemOng = fotoPadrao;
-    
     useEffect(()=> {
 
         const getOngData = async () => {
             let resp = await api.get(`/ngos/${id}`).catch(console.error);
             setOng(resp.data);
+
+            setImagem(!!resp.data === true ? await getImageBanco(resp.data.idUser) : '');
         }
+
+        getOngData();
 
         const listPublications = async () => {
             let resp = await api.get(`/posts/publisher/${id}`).catch(console.error);
             setPublications(resp.data);
         }
+
+        listPublications();
 
         const checkFollow = async () => {
             let resp = await api.get(`/donors/${participante.donor.id}/follow/${id}`).catch(console.log);
@@ -44,8 +50,6 @@ function PerfilOng() {
             isFollower(resp.data);
         }
 
-        getOngData();
-        listPublications();
         checkFollow();
 
     }, []);
@@ -74,7 +78,7 @@ function PerfilOng() {
 
                         {
                             ong !== undefined 
-                            ? <img src={imagemOng} alt="" className="img-ong"/>
+                            ? <img src={imagem ? imagem : fotoPadrao} alt="" className="img-ong"/>
                             : <></>
                         }
                         <div className="descricao">
@@ -128,7 +132,7 @@ function PerfilOng() {
                         ? publications.map(pub => 
                             <Publication 
                                 id= {pub.id}
-                                imagem={pub.ngo.user ? pub.ngo.user.img : ""}
+                                imagem={imagem && imagem != '' ? imagem : fotoPadrao}
                                 nome={pub.ngo.user.name}
                                 data= {pub.dateTime}
                                 descricao={pub.description}

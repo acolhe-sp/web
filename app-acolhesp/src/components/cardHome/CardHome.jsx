@@ -1,32 +1,33 @@
-import { Rating, TextField, InputBase } from '@mui/material';
-import React from 'react';
+import { Rating, InputBase } from '@mui/material';
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import fotoPadrao from '../../images/profileavatar.png';
 
-import api from '../../api';
-
 import './CardHome.css';
-
-async function getImage(id) {
-  try {
-    
-    return await api.post(`/${id}`);
-
-  } catch (err) {
-    console.error(err);
-  }
-}
+import getImageBanco from '../../utils/getImageUser';
 
 function CardHome(props) {
 
-  const imagemOng = props.imagem ? props.imagem : fotoPadrao;
+  const [imagem, setImagem] = useState("");
 
   const hasNotificacoes = props.notificacoes 
     ? <div className="news"><p>{props.notificacoes}</p></div>
     : '';
 
+
+  useEffect(() => {
+    
+    const initImage = async () => {
+        setImagem(await getImageBanco(props.imagem ? props.imagem : ''));
+    }
+
+    initImage();
+
+  }, [])
+
   const navigate = useNavigate();
+
 
   return (
     <>
@@ -41,7 +42,7 @@ function CardHome(props) {
 
           <div className="body-card">
             
-            <img src={imagemOng} alt="" />
+            <img src={imagem && imagem != '' ? imagem : fotoPadrao} alt="" />
             
             <p className="name-ong"> {props.nome} </p>
 

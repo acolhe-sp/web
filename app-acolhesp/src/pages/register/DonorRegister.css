@@ -73,7 +73,6 @@ form {
 .form-signup-donor img {
   width: 80px;
   justify-content: center;
-  margin-bottom: 16px;
 }
 
 .form-signup-ong img {
@@ -93,6 +92,23 @@ form {
 .input-upload-avatar {
   justify-content: center;
   margin-left: 48px;
+}
+
+.container-image {
+  height: 130px;
+  width: 130px;
+
+  display: grid;
+  justify-content: center;
+  align-items: center;
+
+  overflow: hidden;
+
+  border-radius: 100%;
+}
+
+.container-image img{
+  object-fit: contain;
 }
 
 .input-group {
@@ -148,6 +164,7 @@ form {
   flex-direction: row;
   justify-content: space-around;
 }
+
 
 button {
   letter-spacing: 2px;

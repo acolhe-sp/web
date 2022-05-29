@@ -300,9 +300,9 @@ function DonorRegister() {
         <form>
           <div className="upload-avatar">
             <Stack className="input-upload-avatar" direction="column" alignItems="center" spacing={1} style={{ position: 'relative', left: '-25px', top: '5px'}}>
-              
-              <img src={imagem && imagem !== '' ? imagem : emptyAvatar} alt="empty-avatar" />
-              
+              <div className="container-image">
+                <img src={imagem && imagem !== '' ? imagem : emptyAvatar} alt="empty-avatar" />
+              </div>
               <label htmlFor="icon-button-file" className="buttons" style={{ position: 'relative', top: '-10px'}}>
                   <Input accept="image/*" id="icon-button-file" onChange={() => setImageInput()} type="file" />
                   <Button variant="contained" component="span" >
@@ -472,7 +472,9 @@ function DonorRegister() {
           <div className="upload-avatar">
             <Stack className="input-upload-avatar" direction="column" alignItems="center" spacing={1} style={{ position: 'relative', left: '-25px', top: '5px'}}>
               
-              <img src={imagem && imagem !== '' ? imagem : emptyAvatar} alt="empty-avatar" />
+              <div className="container-image">
+                <img src={imagem && imagem !== '' ? imagem : emptyAvatar} alt="empty-avatar" />
+              </div>
               
               <label htmlFor="icon-button-file" className="buttons" style={{ position: 'relative', top: '-10px'}}>
                   <Input accept="image/*" id="icon-button-file" onChange={() => setImageInput()} type="file" />
@@ -626,6 +628,8 @@ function DonorRegister() {
                       id="outlined-multiline-static"
                       label="Descrição"
                       multiline
+                      onChange={(e) => setDescription(e.target.value)}
+                      sx={{ width: '200px'}}
                       rows={4}
                     />
                   </DialogContent>
