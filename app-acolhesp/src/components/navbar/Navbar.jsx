@@ -70,7 +70,9 @@ function Navbar(props) {
                             cursor: 'pointer',
                             backgroundColor: 'transparent'}} onClick={() => props.ong ? navigate(`/dashboard`) :navigate(`/my-profile`)}>
                         
-                            <img src={!!imagem === true ? imagem : fotoPadrao} alt="image" className="avatar" />
+                            <div className='containerAvatar'>
+                                <img src={!!imagem === true ? imagem : fotoPadrao} alt="image" className="avatar" />
+                            </div>
                             <p style={{ position: 'relative', top: '0px', left: '10px' }}>{prepareName(participante.user.name)}</p>
 
                         </div>
