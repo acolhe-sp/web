@@ -169,8 +169,6 @@ function UpdateDataUser() {
 
                 await api.put(`/donors/${participante.donor.id}`, newDonor);
 
-                console.log("passou primeira fase");
-
                 await api.patch(`/users/pic/${participante.user.id}`, {
                     img: imagem
                 });
@@ -240,7 +238,7 @@ function UpdateDataUser() {
 
     const ufs = [
         'AC', 'AL', 'AP', 'AM', 'BA', 'CE', 'ES', 'GO', 'MA', 'MT', 'MS', 'MG',
-        'PA', 'PB', 'PR', 'PE', 'PI', 'RJ', 'RN', 'RS', 'RO', 'RR', 'SC'
+        'PA', 'PB', 'PR', 'PE', 'PI', 'RJ', 'RN', 'RS', 'RO', 'RR', 'SC', 'SP',
     ];
 
     return (

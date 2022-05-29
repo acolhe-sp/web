@@ -8,7 +8,7 @@ import doadorIcon from '../../images/doador.png';
 import ongIcon from '../../images/ong-icon.png';
 
 import { styled } from '@mui/material/styles';
-import { Button, ButtonGroup, TextField } from '@mui/material';
+import { Alert, Button, ButtonGroup, Snackbar, TextField } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import PhotoCamera from '@mui/icons-material/PhotoCamera';
 import Stack from '@mui/material/Stack';
@@ -19,7 +19,6 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-
 
 
 import './DonorRegister.css';
@@ -34,9 +33,7 @@ function DonorRegister() {
   document.title = 'Cadastre-se';
   const navigate = useNavigate();
 
-
   const [open, setOpen] = useState(false);
-
 
   const handleClickOpenONG = () => {
     setOpen(true);
@@ -46,14 +43,27 @@ function DonorRegister() {
     setOpen(false);
   };
 
+  const [openFailedAlert, setOpenFailedAlert] = useState(false);
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+        return;
+    }
+
+    setOpenFailedAlert(false);
+};
+
+  const [imagem, setImagem] = useState("");
   const [nome, setNome] = useState("");
   const [rg, setRg] = useState("");
   const [cpf, setCpf] = useState("");
   const [email, setEmail] = useState("");
   const [emailConfirmado, setEmailConfirmado] = useState("");
+  const [emailValido, setEmailValido] = useState("");
 
   const [senha, setSenha] = useState("");
   const [senhaConfirmada, setSenhaConfirmada] = useState("");
+  const [senhaValida, setSenhaValida] = useState();
 
   const [cep, setCep] = useState("");
   const [rua, setRua] = useState("");
@@ -64,9 +74,29 @@ function DonorRegister() {
 
   const [estado, setEstado] = useState("");
 
-  const [cpnj, setCpnj] = useState("");
+  const [cnpj, setCnpj] = useState("");
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState("");
+
+  function setEmailTruth(e) {
+      setEmail(e);
+      setEmailValido(emailConfirmado === String(e));
+  }
+
+  function validEmail(e) {
+      setEmailConfirmado(e);
+      setEmailValido(email === String(e));
+  }
+
+  function setSenhaTruth(e) {
+      setSenha(e);
+      setSenhaValida(senhaConfirmada === String(e) && e.length > 7);
+  }
+
+  function validSenha(e) {
+      setSenhaConfirmada(e);
+      setSenhaValida(senha === String(e) && e.length > 7);
+  }
 
   function changeFormOng() {
 
@@ -82,28 +112,55 @@ function DonorRegister() {
 
   }
 
+  function setImageInput() {
+      const inputImage = document.getElementById('icon-button-file');
+      
+      const file = inputImage.files[0];
+
+      const reader = new FileReader();
+      reader.onloadend = () => {
+          setImagem(reader.result);
+      };
+      reader.readAsDataURL(file);
+
+  }
+
   async function registerDonor() {
     handleCloseONG();
 
+    if (!senhaValida || !emailValido) {
+      setOpenFailedAlert(true);
+      return;
+    }
+
     try {
-      const res = await api.post('/donors', {
-        img: "teste.jpg",
-        name: nome,
-        email,
-        password: senha,
-        addressDTO: {
-          state: estado,
-          city: cidade,
-          district: bairro,
-          cep,
-          street: rua,
-          number: numero,
-          complement: complemento
+
+      const newDonor = {
+        rg: rg,
+        cpf: cpf,
+        user: {
+          name: nome,
+          email: email,
+          password: senha,
+          addressDTO: {
+              state: estado,
+              city: cidade,
+              district: bairro,
+              cep: cep,
+              street: rua,
+              number: numero,
+              complement: complemento
+          },
+          userType: "USER_DONOR",
+          connect: false
         },
-        rg,
-        cpf,
-        userType: "USER_DONOR",
-        connect: false
+        notifications: []
+      };
+
+      const res = await api.post('/donors', newDonor);
+
+      await api.patch(`/users/pic/${res.data.user.id}`, {
+          img: imagem
       });
 
       if (res.status === 201) alert("Cadastrado com sucesso!");
@@ -111,38 +168,54 @@ function DonorRegister() {
       navigate('/');
     }
     catch (err) {
-      alert('Erro: ' + err.response.status);
+      setOpenFailedAlert(true);
     }
   }
 
   async function registerOng() {
+
+    if (!senhaValida || !emailValido) {
+      setOpenFailedAlert(true);
+      return;
+    }
+
     try {
-      const res = await api.post('/ongs', {
-        img: "teste.jpg",
-        name: nome,
-        email,
-        password: senha,
-        addressDTO: {
-          state: estado,
-          city: cidade,
-          district: bairro,
-          cep,
-          street: rua,
-          number: numero,
-          complement: complemento
+
+      const newNgo = {
+        cnpj: cnpj,
+        description: description,
+        category: category,
+        user: {
+            name: nome,
+            email: email,
+            password: senha,
+            addressDTO: {
+                state: estado,
+                city: cidade,
+                district: bairro,
+                cep: cep,
+                street: rua,
+                number: numero,
+                complement: complemento
+            },
+            userType: "USER_NGO",
+            connect: false
         },
-        rg,
-        cpf,
-        userType: "USER_DONOR",
-        connect: false
-      });
+        assessment: 0.0
+      };
+
+      const res = await api.post('/ngos', newNgo);
 
       if (res.status === 201) alert("Cadastrado com sucesso!");
+
+      await api.patch(`/users/pic/${res.data.user.id}`, {
+          img: imagem
+      });
 
       navigate('/');
     }
     catch (err) {
-      alert('Erro: ' + err.response.status);
+      setOpenFailedAlert(true);
     }
   }
 
@@ -170,19 +243,25 @@ function DonorRegister() {
     'RS',
     'RO',
     'RR',
-    'SC'
+    'SC',
+    'SP',
   ];
 
   const categories = [
-    'Animais',
-    'Assistência social',
-    'Cultura',
-    'Desenvolvimento e defesa de direitos',
-    'Educação e Pesquisa',
-    'Habitação',
-    'Meio ambiente',
-    'Saúde'
+    {id: 1, desc: 'Animais' },
+    {id: 2, desc: 'Assistência social'},
+    {id: 3, desc: 'Educação e Pesquisa'},
+    {id: 4, desc: 'Saúde'},
+    {id: 5, desc: 'Cultura'},
+    {id: 6, desc: 'Defesa de direitos'},
+    {id: 7, desc: 'Habitação'},
+    {id: 8, desc: 'Meio ambiente'}
   ];
+
+  const textStyle = {
+    width: '220px',
+    marginBottom: '10px',
+  }
 
   return (
     <div className="container-fluid">
@@ -220,21 +299,18 @@ function DonorRegister() {
 
         <form>
           <div className="upload-avatar">
-            <img src={emptyAvatar} alt="empty-avatar" />
-
-
-            <Stack className="input-upload-avatar" direction="row" alignItems="center" spacing={1}>
-              <label htmlFor="contained-button-file">
-                <Input accept="image/*" id="contained-button-file" multiple type="file" />
-                <Button variant="contained" component="span">
-                  Upload
-                </Button>
-              </label>
-              <label htmlFor="icon-button-file">
-                <Input accept="image/*" id="icon-button-file" type="file" />
-                <IconButton color="primary" aria-label="upload picture" component="span">
-                  <PhotoCamera />
-                </IconButton>
+            <Stack className="input-upload-avatar" direction="column" alignItems="center" spacing={1} style={{ position: 'relative', left: '-25px', top: '5px'}}>
+              
+              <img src={imagem && imagem !== '' ? imagem : emptyAvatar} alt="empty-avatar" />
+              
+              <label htmlFor="icon-button-file" className="buttons" style={{ position: 'relative', top: '-10px'}}>
+                  <Input accept="image/*" id="icon-button-file" onChange={() => setImageInput()} type="file" />
+                  <Button variant="contained" component="span" >
+                      Upload
+                  </Button>
+                  <IconButton color="primary" aria-label="upload picture" component="span">
+                      <PhotoCamera />
+                  </IconButton>
               </label>
             </Stack>
           </div>
@@ -247,46 +323,63 @@ function DonorRegister() {
                 variant="standard"
                 size="small"
                 onChange={(e) => setNome(e.target.value)}
+                sx={textStyle}
               />
               <TextField
                 label="Registro Geral"
                 variant="standard"
                 size="small"
                 onChange={(e) => setRg(e.target.value)}
+                inputProps={{
+                  maxLength: 12,
+                }}
+                sx={textStyle}
               />
               <TextField
                 label="CPF"
                 variant="standard"
                 size="small"
                 onChange={(e) => setCpf(e.target.value)}
+                inputProps={{
+                  maxLength: 14,
+                }}
+                sx={textStyle}
               />
               <TextField
                 label="E-mail"
                 type="email"
                 variant="standard"
                 size="small"
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={(e) => setEmailTruth(e.target.value)}
+                sx={textStyle}
               />
               <TextField
                 label="Confirme o e-mail"
                 type="email"
                 variant="standard"
                 size="small"
-                onChange={(e) => setEmailConfirmado(e.target.value)}
+                color={emailValido ? 'success' : 'warning'}
+                onChange={(e) => validEmail(e.target.value)}
+                focused
+                sx={textStyle}
               />
               <TextField
                 label="Senha"
                 type="password"
                 variant="standard"
                 size="small"
-                onChange={(e) => setSenha(e.target.value)}
+                onChange={(e) => setSenhaTruth(e.target.value)}
+                sx={textStyle}
               />
               <TextField
                 label="Confirme a senha"
                 type="password"
                 variant="standard"
                 size="small"
-                onChange={(e) => setSenhaConfirmada(e.target.value)}
+                color={senhaValida ? 'success' : 'warning'}
+                onChange={(e) => validSenha(e.target.value)}
+                focused
+                sx={textStyle}
               />
 
             </div>
@@ -298,6 +391,7 @@ function DonorRegister() {
                 variant="standard"
                 size="small"
                 onChange={(e) => setCep(e.target.value)}
+                sx={{marginBottom: '10px'}}
               />
 
               <TextField
@@ -305,14 +399,15 @@ function DonorRegister() {
                 variant="standard"
                 size="small"
                 onChange={(e) => setRua(e.target.value)}
+                sx={{marginBottom: '10px'}}
               />
-
 
               <TextField
                 label="Número"
                 variant="standard"
                 size="small"
                 onChange={(e) => setNumero(e.target.value)}
+                sx={{marginBottom: '10px'}}
               />
 
               <TextField
@@ -320,21 +415,24 @@ function DonorRegister() {
                 variant="standard"
                 size="small"
                 onChange={(e) => setCidade(e.target.value)}
+                sx={{marginBottom: '10px'}}
               />
               <TextField
                 label="Bairro"
                 variant="standard"
                 size="small"
                 onChange={(e) => setBairro(e.target.value)}
+                sx={{marginBottom: '10px'}}
               />
               <TextField
                 label="Complemento"
                 variant="standard"
                 size="small"
                 onChange={(e) => setComplemento(e.target.value)}
+                sx={{marginBottom: '10px'}}
               />
 
-              <NativeSelect onChange={(e) => setEstado(e.target.value)} className="select-uf">
+              <NativeSelect onChange={(e) => setEstado(e.target.value)} className="select-uf" sx={{marginBottom: '10px'}}>
                 <option disabled selected>Estado</option>
                 {
                   ufs.map(uf => {
@@ -356,7 +454,11 @@ function DonorRegister() {
           </div>
 
         </form>
-
+        <Snackbar open={openFailedAlert} autoHideDuration={5000} onClose={handleClose}>
+          <Alert onClose={handleClose} severity="error" sx={{ width: '50%', fontSize: '17px' }}>
+              Falha ao cadastrar, certifique-se que todos os dados estão preenchidos corretamente!
+          </Alert>
+        </Snackbar>
       </div>
 
 
@@ -368,21 +470,18 @@ function DonorRegister() {
 
         <form>
           <div className="upload-avatar">
-            <img src={emptyAvatar} alt="empty-avatar" />
-
-
-            <Stack className="input-upload-avatar" direction="row" alignItems="center" spacing={1}>
-              <label htmlFor="contained-button-file">
-                <Input accept="image/*" id="contained-button-file" multiple type="file" />
-                <Button variant="contained" component="span">
-                  Upload
-                </Button>
-              </label>
-              <label htmlFor="icon-button-file">
-                <Input accept="image/*" id="icon-button-file" type="file" />
-                <IconButton color="primary" aria-label="upload picture" component="span">
-                  <PhotoCamera />
-                </IconButton>
+            <Stack className="input-upload-avatar" direction="column" alignItems="center" spacing={1} style={{ position: 'relative', left: '-25px', top: '5px'}}>
+              
+              <img src={imagem && imagem !== '' ? imagem : emptyAvatar} alt="empty-avatar" />
+              
+              <label htmlFor="icon-button-file" className="buttons" style={{ position: 'relative', top: '-10px'}}>
+                  <Input accept="image/*" id="icon-button-file" onChange={() => setImageInput()} type="file" />
+                  <Button variant="contained" component="span" >
+                      Upload
+                  </Button>
+                  <IconButton color="primary" aria-label="upload picture" component="span">
+                      <PhotoCamera />
+                  </IconButton>
               </label>
             </Stack>
           </div>
@@ -395,19 +494,24 @@ function DonorRegister() {
                 variant="standard"
                 size="small"
                 onChange={(e) => setNome(e.target.value)}
+                sx={textStyle}
               />
               <TextField
                 label="CNPJ"
                 variant="standard"
                 size="small"
-                onChange={(e) => setCpf(e.target.value)}
+                onChange={(e) => setCnpj(e.target.value)}
+                inputProps={{
+                  maxLength: 18,
+                }}
+                sx={textStyle}
               />
 
-              <NativeSelect onChange={(e) => setCategory(e.target.value)} className="select-category">
+              <NativeSelect onChange={(e) => setCategory(e.target.value)} className="select-category" sx={textStyle}>
                 <option disabled selected>Categoria</option>
                 {
                   categories.map(category => {
-                    return <option value={category}>{category}</option>
+                    return <option value={category.id}>{category.desc}</option>
                   })
                 }
               </NativeSelect>
@@ -417,28 +521,36 @@ function DonorRegister() {
                 type="email"
                 variant="standard"
                 size="small"
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={(e) => setEmailTruth(e.target.value)}
+                sx={textStyle}
               />
               <TextField
                 label="Confirme o e-mail"
                 type="email"
                 variant="standard"
                 size="small"
-                onChange={(e) => setEmailConfirmado(e.target.value)}
+                color={emailValido ? 'success' : 'warning'}
+                onChange={(e) => validEmail(e.target.value)}
+                focused
+                sx={textStyle}
               />
               <TextField
                 label="Senha"
                 type="password"
                 variant="standard"
                 size="small"
-                onChange={(e) => setSenha(e.target.value)}
+                onChange={(e) => setSenhaTruth(e.target.value)}
+                sx={textStyle}
               />
               <TextField
                 label="Confirme a senha"
                 type="password"
                 variant="standard"
                 size="small"
-                onChange={(e) => setSenhaConfirmada(e.target.value)}
+                color={senhaValida ? 'success' : 'warning'}
+                onChange={(e) => validSenha(e.target.value)}
+                focused
+                sx={textStyle}
               />
 
             </div>
@@ -450,6 +562,7 @@ function DonorRegister() {
                 variant="standard"
                 size="small"
                 onChange={(e) => setCep(e.target.value)}
+                sx={{marginBottom: '10px'}}
               />
 
               <TextField
@@ -457,6 +570,7 @@ function DonorRegister() {
                 variant="standard"
                 size="small"
                 onChange={(e) => setRua(e.target.value)}
+                sx={{marginBottom: '10px'}}
               />
 
 
@@ -465,6 +579,7 @@ function DonorRegister() {
                 variant="standard"
                 size="small"
                 onChange={(e) => setNumero(e.target.value)}
+                sx={{marginBottom: '10px'}}
               />
 
               <TextField
@@ -472,21 +587,24 @@ function DonorRegister() {
                 variant="standard"
                 size="small"
                 onChange={(e) => setCidade(e.target.value)}
+                sx={{marginBottom: '10px'}}
               />
               <TextField
                 label="Bairro"
                 variant="standard"
                 size="small"
                 onChange={(e) => setBairro(e.target.value)}
+                sx={{marginBottom: '10px'}}
               />
               <TextField
                 label="Complemento"
                 variant="standard"
                 size="small"
                 onChange={(e) => setComplemento(e.target.value)}
+                sx={{marginBottom: '10px'}}
               />
 
-              <NativeSelect onChange={(e) => setEstado(e.target.value)} className="select-uf">
+              <NativeSelect onChange={(e) => setEstado(e.target.value)} className="select-uf" sx={{marginBottom: '10px'}}>
                 <option disabled selected>Estado</option>
                 {
                   ufs.map(uf => {
@@ -533,6 +651,11 @@ function DonorRegister() {
 
         </form>
 
+        <Snackbar open={openFailedAlert} autoHideDuration={5000} onClose={handleClose}>
+          <Alert onClose={handleClose} severity="error" sx={{ width: '50%', fontSize: '17px' }}>
+              Falha ao cadastrar, certifique-se que todos os dados estão preenchidos corretamente!
+          </Alert>
+        </Snackbar>
       </div>
     </div>
   );
