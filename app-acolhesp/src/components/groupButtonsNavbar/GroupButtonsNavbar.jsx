@@ -4,15 +4,20 @@ import ButtonGroup from '@mui/material/ButtonGroup';
 import SettingsSuggestIcon from '@mui/icons-material/SettingsSuggest';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { useNavigate } from 'react-router-dom';
+import api from '../../api';
 
 
 export default function GroupButtonsNavbar() {
 
+  const participante = JSON.parse(sessionStorage.getItem('participante'));
+  
   const navigate = useNavigate();
 
-  function logout() {
+  async function logout() {
 
-    sessionStorage.removeItem('participante');
+    await api.put(`/users/logout/${participante.user.id}`).catch(console.log);
+
+    sessionStorage.clear();
   
     navigate('/');
   

@@ -108,7 +108,7 @@ function DonorRegister() {
 
       if (res.status === 201) alert("Cadastrado com sucesso!");
 
-      navigate('/login');
+      navigate('/');
     }
     catch (err) {
       alert('Erro: ' + err.response.status);
@@ -139,7 +139,7 @@ function DonorRegister() {
 
       if (res.status === 201) alert("Cadastrado com sucesso!");
 
-      navigate('/login');
+      navigate('/');
     }
     catch (err) {
       alert('Erro: ' + err.response.status);
@@ -191,7 +191,7 @@ function DonorRegister() {
         <img src={signupSVG} alt="sign-up" />
       </div>
 
-      <div className="logo-footer">
+      <div style={{ cursor: 'pointer' }} className="logo-footer" onClick={() => navigate('/')}>
         <img src={logoSVG} alt="logo" />
       </div>
 

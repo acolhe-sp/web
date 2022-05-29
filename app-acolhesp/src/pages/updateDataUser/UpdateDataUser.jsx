@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "../../components/navbar/Navbar";
-import { Button, IconButton, NativeSelect, Stack, TextField } from "@mui/material";
+import { Alert, Button, IconButton, NativeSelect, Snackbar, Stack, TextField, Typography } from "@mui/material";
 import { PhotoCamera } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 
@@ -12,7 +12,7 @@ import "./UpdateDataUser.css";
 
 import emptyAvatar from '../../images/empty-avatar.png';
 import resetUserSession from "../../utils/resetUserSession";
-import { padding } from "@mui/system";
+import getImageBanco from "../../utils/getImageUser";
 
 const Input = styled('input')({
     display: 'none',
@@ -25,307 +25,470 @@ function UpdateDataUser() {
     const participante = JSON.parse(sessionStorage.getItem('participante'));
     const navigate = useNavigate();
 
-    useEffect(()=> {
-
-
-    }, []); 
-
     const [imagem, setImagem] = useState("");
     const [nome, setNome] = useState("");
     const [rg, setRg] = useState("");
     const [cpf, setCpf] = useState("");
+
     const [email, setEmail] = useState("");
     const [emailConfirmado, setEmailConfirmado] = useState("");
+    const [emailValido, setEmailValido] = useState("");
 
     const [cnpj, setCnpj] = useState("");
     const [descricao, setDescricao] = useState("");
-  
+
     const [senha, setSenha] = useState("");
     const [senhaConfirmada, setSenhaConfirmada] = useState("");
-  
+    const [senhaValida, setSenhaValida] = useState();
+    const [viewSenha, setViewSenha] = useState();
+    const [viewSenhaConfirm, setViewSenhaConfirm] = useState();
+
     const [cep, setCep] = useState("");
     const [rua, setRua] = useState("");
     const [numero, setNumero] = useState("");
     const [cidade, setCidade] = useState("");
     const [bairro, setBairro] = useState("");
     const [complemento, setComplemento] = useState("");
-  
+
     const [estado, setEstado] = useState("");
 
+    const [openFailedAlert, setOpenFailedAlert] = useState(false);
+
+    async function setUserData(part) {
+
+        setImagem(await getImageBanco(part.user.id));
+        setNome(part.user.name);
+        setEmail(part.user.email);
+        setCep(part.user.address.cep);
+        setRua(part.user.address.street);
+        setNumero(part.user.address.number);
+        setCidade(part.user.address.city);
+        setBairro(part.user.address.district);
+        setComplemento(part.user.address.complement);
+        setEstado(part.user.address.state);
+
+    }
+
+    function initializeComponentes() {
+        if (participante && participante.user.userType === "USER_DONOR") {
+
+            setRg(participante ? participante.donor.rg : '');
+            setCpf(participante ? participante.donor.cpf : '');
+            setUserData(participante);
+
+        } else {
+
+            setCnpj(participante ? participante.ngo.cnpj : '');
+            setDescricao(participante ? participante.ngo.description : '');
+            setUserData(participante);
+
+        }
+    }
+
+    useEffect(() => {
+        initializeComponentes();
+    }, []);
+
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+
+        setOpenFailedAlert(false);
+    };
+
     const isDonor = participante && participante.user.userType === "USER_DONOR";
-  
+
+    function setEmailTruth(e) {
+        setEmail(e);
+        setEmailValido(emailConfirmado === String(e));
+    }
+
+    function validEmail(e) {
+        setEmailConfirmado(e);
+        setEmailValido(email === String(e));
+    }
+
+    function setSenhaTruth(e) {
+        setSenha(e);
+        setSenhaValida(senhaConfirmada === String(e) && e.length > 7);
+    }
+
+    function validSenha(e) {
+        setSenhaConfirmada(e);
+        setSenhaValida(senha === String(e) && e.length > 7);
+    }
+
+    function setImageInput() {
+        const inputImage = document.getElementById('icon-button-file');
+        
+        const file = inputImage.files[0];
+
+        const reader = new FileReader();
+        reader.onloadend = () => {
+            setImagem(reader.result);
+        };
+        reader.readAsDataURL(file);
+
+    }
+
     async function updateData() {
+
+        if (!senhaValida || !emailValido) {
+
+            setOpenFailedAlert(true);
+            return;
+        }
 
         if (isDonor) {
             try {
-                await api.put(`/donors/${participante.donor.id}`, {
-                  img: imagem,
-                  name: nome,
-                  email,
-                  password: senha,
-                  addressDTO: {
-                    state: estado,
-                    city: cidade,
-                    district: bairro,
-                    cep,
-                    street: rua,
-                    number: numero,
-                    complement: complemento
-                  },
-                  rg,
-                  cpf,
+
+                const newDonor = {
+                    rg: rg,
+                    cpf: cpf,
+                    user: {
+                        id: participante.user.id,
+                        name: nome,
+                        email: email,
+                        password: senha,
+                        addressDTO: {
+                            id: participante.user.address.id,
+                            state: estado,
+                            city: cidade,
+                            district: bairro,
+                            cep: cep,
+                            street: rua,
+                            number: numero,
+                            complement: complemento
+                        },
+                        userType: "USER_DONOR",
+                        connect: true
+                    },
+                    notifications: []
+                };
+
+                await api.put(`/donors/${participante.donor.id}`, newDonor);
+
+                console.log("passou primeira fase");
+
+                await api.patch(`/users/pic/${participante.user.id}`, {
+                    img: imagem
                 });
 
+                console.log("passou segunda fase");
+
                 await resetUserSession(participante.user.id);
-          
+
                 navigate('/home');
-              }
-              catch (err) {
+            }
+            catch (err) {
                 alert('Erro: ' + err.response.status);
-              }
+            }
         } else {
             try {
-                await api.put(`/ngos/${participante.ngo.id}`, {
-                  img: imagem,
-                  name: nome,
-                  email,
-                  password: senha,
-                  addressDTO: {
-                    state: estado,
-                    city: cidade,
-                    district: bairro,
-                    cep,
-                    street: rua,
-                    number: numero,
-                    complement: complemento
-                  },
-                  cnpj,
-                  descricao
-                });
+
+                const newNgo = {
+                    cnpj: cnpj,
+                    description: descricao,
+                    category: participante.ngo.category.id,
+                    user: {
+                        id: participante.user.id,
+                        name: nome,
+                        email: email,
+                        password: senha,
+                        addressDTO: {
+                            id: participante.user.address.id,
+                            state: estado,
+                            city: cidade,
+                            district: bairro,
+                            cep: cep,
+                            street: rua,
+                            number: numero,
+                            complement: complemento
+                        },
+                        userType: "USER_NGO",
+                        connect: true
+                    },
+                    assessment: participante.donor.assessment
+                };
+
+                await api.put(`/ngos/${participante.ngo.id}`, newNgo);
+
+                console.log(imagem);
+
+                await api.patch(`/users/pic/${participante.user.id}`, 
+                    JSON.stringify({
+                        img: imagem
+                    })
+                );
 
                 await resetUserSession(participante.user.id);
-          
+
                 navigate('/dashboard');
             }
             catch (err) {
-            alert('Erro: ' + err.response.status);
+                alert('Erro: ' + err.response.status);
             }
         }
 
     }
-  
+
     const textStyle = {
-        width: '280px',
-        marginBottom: '10px'
+        width: '300px',
+        marginBottom: '15px',
     }
-  
+
     const ufs = [
-        'AC','AL','AP','AM','BA','CE','ES','GO','MA','MT','MS','MG',
-        'PA','PB','PR','PE','PI','RJ','RN','RS','RO','RR','SC'
+        'AC', 'AL', 'AP', 'AM', 'BA', 'CE', 'ES', 'GO', 'MA', 'MT', 'MS', 'MG',
+        'PA', 'PB', 'PR', 'PE', 'PI', 'RJ', 'RN', 'RS', 'RO', 'RR', 'SC'
     ];
 
     return (
         <>
-            <Navbar ong={!isDonor}/>
+            <Navbar ong={!isDonor} />
 
             <br />
 
             <div className="container">
                 <div className="content-update">
 
-                <form>
-                    <div className="upload-avatar">
+                    <form>
+                        <div className="upload-avatar">
 
-                        <Stack className="input-upload-avatar" direction="column" alignItems="center" spacing={1} sx={{ position:"relative", left: "-1.2vw", top: "42vh"}}>
-                            <label htmlFor="contained-button-file">
-                                <img src={emptyAvatar} alt="empty-avatar"/>
-                            </label>
-                            <label htmlFor="icon-button-file" className="buttons">
-                                <Input accept="image/*" id="icon-button-file" type="file" />
-                                <Button variant="contained" component="span">
-                                    Upload
-                                </Button>
-                                <IconButton color="primary" aria-label="upload picture" component="span">
-                                    <PhotoCamera />
-                                </IconButton>
-                            </label>
-                        </Stack>
-                    </div>
-
-                    <div className="input-group">
-                        <div>
-                        <p><b>Dados pessoais</b></p>
-                        <TextField
-                            label="Nome completo"
-                            variant="filled"
-                            defaultValue={participante ? participante.user.name : ''}
-                            select={false}
-                            size="small"
-                            autoComplete="no"
-                            onChange={(e) => setNome(e.target.value)}
-                            sx={textStyle}
-                        />
-                        {
-                            isDonor
-                            ? [
-                                <TextField
-                                    label="Registro Geral"
-                                    variant="filled"
-                                    defaultValue={participante ? participante.donor.rg : ''}
-                                    select={false}
-                                    size="small"
-                                    onChange={(e) => setRg(e.target.value)}
-                                    sx={textStyle}
-                                />,
-                                <TextField
-                                    label="CPF"
-                                    defaultValue={participante ? participante.donor.cpf : ''}
-                                    variant="filled"
-                                    size="small"
-                                    onChange={(e) => setCpf(e.target.value)}
-                                    sx={textStyle}
-                                />
-                             ]
-                            :[
-                                <TextField
-                                    label="CNPJ"
-                                    variant="filled"
-                                    defaultValue={participante ? participante.ngo.cnpj : ''}
-                                    select={false}
-                                    size="small"
-                                    onChange={(e) => setCnpj(e.target.value)}
-                                    sx={textStyle}
-                                />,
-                                <TextField
-                                    label="Descrição"
-                                    variant="filled"
-                                    defaultValue={participante ? participante.ngo.description : ''}
-                                    default
-                                    size="small"
-                                    onChange={(e) => setDescricao(e.target.value)}
-                                    sx={textStyle}
-                                />
-                            ]
-
-                        }
-                        <TextField
-                            label="E-mail"
-                            type="email"
-                            variant="filled"
-                            defaultValue={participante ? participante.user.email : ''}
-                            size="small"
-                            select={false}
-                            onChange={(e) => setEmail(e.target.value)}
-                            sx={textStyle}
-                        />
-                        <TextField
-                            label="Confirme o e-mail"
-                            type="email"
-                            variant="filled"
-                            size="small"
-                            onChange={(e) => setEmailConfirmado(e.target.value)}
-                            sx={textStyle}
-                        />
-                        <TextField
-                            label="Senha"
-                            type="password"
-                            variant="filled"
-                            size="small"
-                            onChange={(e) => setSenha(e.target.value)}
-                            sx={textStyle}
-                        />
-                        <TextField
-                            label="Confirme a senha"
-                            type="password"
-                            variant="filled"
-                            size="small"
-                            onChange={(e) => setSenhaConfirmada(e.target.value)}
-                            sx={textStyle}
-                        />
-
+                            <Stack className="input-upload-avatar" direction="column" alignItems="center" spacing={1} sx={{ position: "relative", left: "-1.2vw", top: "42vh" }}>
+                                <label htmlFor="contained-button-file" style={{ height: "120px", width: "120px", overflow: "hidden", borderRadius: "100%" }}>
+                                    <img width="100%" height="100%" src={imagem && imagem !== '' ? imagem : emptyAvatar} alt="empty-avatar" />
+                                </label>
+                                <label htmlFor="icon-button-file" className="buttons">
+                                    <Input accept="image/*" id="icon-button-file" onChange={() => setImageInput()} type="file" />
+                                    <Button variant="contained" component="span">
+                                        Upload
+                                    </Button>
+                                    <IconButton color="primary" aria-label="upload picture" component="span">
+                                        <PhotoCamera />
+                                    </IconButton>
+                                </label>
+                            </Stack>
                         </div>
 
-                        <div style={{ marginLeft: "150px"}}>
-                        <p><b>Endereço</b></p>
-                        <TextField
-                            label="CEP"
-                            variant="filled"
-                            defaultValue={participante ? participante.user.address.cep : ''}
-                            size="small"
-                            onChange={(e) => setCep(e.target.value)}
-                            sx={textStyle}
-                        />
+                        <div className="input-group">
+                            <div>
+                                <p><b>Dados pessoais</b></p>
+                                <TextField
+                                    label={
+                                        <Typography variant="headline" component="h3"> Nome Completo </Typography>
+                                    }
+                                    variant="filled"
+                                    value={nome}
+                                    select={false}
+                                    size="small"
+                                    autoComplete="no"
+                                    onChange={(e) => setNome(e.target.value)}
+                                    sx={textStyle}
+                                />
+                                {
+                                    isDonor
+                                        ? [
+                                            <TextField
+                                                label={
+                                                    <Typography variant="headline" component="h3"> RG </Typography>
+                                                }
+                                                variant="filled"
+                                                value={rg}
+                                                select={false}
+                                                size="small"
+                                                onChange={(e) => setRg(e.target.value)}
+                                                sx={textStyle}
+                                            />,
+                                            <TextField
+                                                label={
+                                                    <Typography variant="headline" component="h3"> CPF </Typography>
+                                                }
+                                                value={cpf}
+                                                variant="filled"
+                                                size="small"
+                                                onChange={(e) => setCpf(e.target.value)}
+                                                sx={textStyle}
+                                            />
+                                        ]
+                                        : [
+                                            <TextField
+                                                label={
+                                                    <Typography variant="headline" component="h3"> CNPJ </Typography>
+                                                }
+                                                variant="filled"
+                                                value={cnpj}
+                                                select={false}
+                                                size="small"
+                                                onChange={(e) => setCnpj(e.target.value)}
+                                                sx={textStyle}
+                                            />,
+                                            <TextField
+                                                label={
+                                                    <Typography variant="headline" component="h3"> Descrição </Typography>
+                                                }
+                                                variant="filled"
+                                                value={descricao}
+                                                default
+                                                size="small"
+                                                onChange={(e) => setDescricao(e.target.value)}
+                                                sx={textStyle}
+                                            />
+                                        ]
 
-                        <TextField
-                            label="Rua"
-                            variant="filled"
-                            defaultValue={participante ? participante.user.address.street : ''}
-                            size="small"
-                            onChange={(e) => setRua(e.target.value)}
-                            sx={textStyle}
-                        />
+                                }
+                                <TextField
+                                    label={
+                                        <Typography variant="headline" component="h3"> E-Mail </Typography>
+                                    }
+                                    type="email"
+                                    variant="filled"
+                                    value={email}
+                                    size="small"
+                                    select={false}
+                                    onChange={(e) => setEmailTruth(e.target.value)}
+                                    sx={textStyle}
+                                />
+                                <TextField
+                                    id="email_confirm"
+                                    label={
+                                        <Typography variant="headline" component="h3"> Confirme o E-Mail </Typography>
+                                    }
+                                    type="email"
+                                    variant="filled"
+                                    size="small"
+                                    color={emailValido ? 'success' : 'warning'}
+                                    onChange={(e) => validEmail(e.target.value)}
+                                    focused
+                                    sx={textStyle}
+                                />
+                                <TextField
+                                    label={
+                                        <Typography variant="headline" component="h3"> Senha </Typography>
+                                    }
+                                    variant="filled"
+                                    size="small"
+                                    onChange={(e) => setSenhaTruth(e.target.value)}
+                                    type={viewSenha ? 'text' : 'password'}
+                                    onMouseEnter={() => setViewSenha(true)}
+                                    onMouseLeave={() => setViewSenha(false)}
+                                    sx={textStyle}
+                                />
+                                <TextField
+                                    label={
+                                        <Typography variant="headline" component="h3"> Confirme a senha </Typography>
+                                    }
+                                    variant="filled"
+                                    size="small"
+                                    color={senhaValida ? 'success' : 'warning'}
+                                    onChange={(e) => validSenha(e.target.value)}
+                                    type={viewSenhaConfirm ? 'text' : 'password'}
+                                    onMouseEnter={() => setViewSenhaConfirm(true)}
+                                    onMouseLeave={() => setViewSenhaConfirm(false)}
+                                    focused
+                                    sx={textStyle}
+                                />
 
-                        <TextField
-                            label="Número"
-                            variant="filled"
-                            defaultValue={participante ? participante.user.address.number : ''}
-                            size="small"
-                            onChange={(e) => setNumero(e.target.value)}
-                            sx={textStyle}
-                        />
+                            </div>
 
-                        <TextField
-                            label="Cidade"
-                            variant="filled"
-                            defaultValue={participante ? participante.user.address.city : ''}
-                            size="small"
-                            onChange={(e) => setCidade(e.target.value)}
-                            sx={textStyle}
-                        />
-                        <TextField
-                            label="Bairro"
-                            variant="filled"
-                            defaultValue={participante ? participante.user.address.district : ''}
-                            size="small"
-                            onChange={(e) => setBairro(e.target.value)}
-                            sx={textStyle}
-                        />
-                        <TextField
-                            label="Complemento"
-                            variant="filled"
-                            defaultValue={participante ? participante.user.address.complement : ''}
-                            size="small"
-                            onChange={(e) => setComplemento(e.target.value)}
-                            sx={textStyle}
-                        />
+                            <div style={{ marginLeft: "150px" }}>
+                                <p><b>Endereço</b></p>
+                                <TextField
+                                    label={
+                                        <Typography variant="headline" component="h3"> CEP </Typography>
+                                    }
+                                    variant="filled"
+                                    value={cep}
+                                    size="small"
+                                    onChange={(e) => setCep(e.target.value)}
+                                    sx={textStyle}
+                                />
 
-                        <NativeSelect defaultValue={<option value={participante ? participante.user.address.state : ''}>{participante ? participante.user.address.state : ''}</option>} 
-                        onChange={(e) => setEstado(e.target.value)} className="select-uf">
-                            <option disabled selected>Estado</option>
-                            {
-                            ufs.map(uf => {
-                                return <option value={uf}>{uf}</option>
-                            })
-                            }
-                        </NativeSelect>
+                                <TextField
+                                    label={
+                                        <Typography variant="headline" component="h3"> Rua </Typography>
+                                    }
+                                    variant="filled"
+                                    value={rua}
+                                    size="small"
+                                    onChange={(e) => setRua(e.target.value)}
+                                    sx={textStyle}
+                                />
+
+                                <TextField
+                                    label={
+                                        <Typography variant="headline" component="h3"> Número </Typography>
+                                    }
+                                    variant="filled"
+                                    value={numero}
+                                    size="small"
+                                    onChange={(e) => setNumero(e.target.value)}
+                                    sx={textStyle}
+                                />
+
+                                <TextField
+                                    label={
+                                        <Typography variant="headline" component="h3"> Cidade </Typography>
+                                    }
+                                    variant="filled"
+                                    value={cidade}
+                                    size="small"
+                                    onChange={(e) => setCidade(e.target.value)}
+                                    sx={textStyle}
+                                />
+                                <TextField
+                                    label={
+                                        <Typography variant="headline" component="h3"> Bairro </Typography>
+                                    }
+                                    variant="filled"
+                                    value={bairro}
+                                    size="small"
+                                    onChange={(e) => setBairro(e.target.value)}
+                                    sx={textStyle}
+                                />
+                                <TextField
+                                    label={
+                                        <Typography variant="headline" component="h3"> Complemento </Typography>
+                                    }
+                                    variant="filled"
+                                    value={complemento}
+                                    size="small"
+                                    onChange={(e) => setComplemento(e.target.value)}
+                                    sx={textStyle}
+                                />
+
+                                <NativeSelect value={<option value={estado}>{estado}</option>}
+                                    onChange={(e) => setEstado(e.target.value)} className="select-uf">
+                                    <option disabled selected>Estado</option>
+                                    {
+                                        ufs.map(uf => {
+                                            return <option value={uf}>{uf}</option>
+                                        })
+                                    }
+                                </NativeSelect>
+                            </div>
                         </div>
-                    </div>
 
-                    <div className="btn-group">
-                        <Button
-                            variant="navbar"
-                            onClick={() => isDonor ? navigate("/home") : navigate("/dashboard")}
-                        >
-                            <b>Cancelar</b>
-                        </Button>
+                        <div className="btn-group">
+                            <Button
+                                variant="navbar"
+                                onClick={() => isDonor ? navigate("/home") : navigate("/dashboard")}
+                            >
+                                <b>Cancelar</b>
+                            </Button>
 
-                        <Button
-                            variant="contained"
-                            onClick={updateData}
-                        >
-                            <b>Salvar</b>
-                        </Button>
-                    </div>
+                            <Button
+                                variant="contained"
+                                onClick={() => updateData()}
+                            >
+                                <b>Salvar</b>
+                            </Button>
+                            <Snackbar open={openFailedAlert} autoHideDuration={5000} onClose={handleClose}>
+                                <Alert onClose={handleClose} severity="error" sx={{ width: '50%', fontSize: '17px' }}>
+                                    Falha ao atualizar, certifique-se que todos os dados estão preenchidos corretamente!
+                                </Alert>
+                            </Snackbar>
+                        </div>
 
                     </form>
 
