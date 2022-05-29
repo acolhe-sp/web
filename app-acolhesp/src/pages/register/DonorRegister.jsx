@@ -4,13 +4,21 @@ import { useNavigate } from "react-router-dom";
 import signupSVG from '../../images/sign-up.svg';
 import logoSVG from '../../images/logo.svg';
 import emptyAvatar from '../../images/empty-avatar.png';
+import doadorIcon from '../../images/doador.png';
+import ongIcon from '../../images/ong-icon.png';
 
 import { styled } from '@mui/material/styles';
-import { Button, TextField } from '@mui/material';
+import { Button, ButtonGroup, TextField } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import PhotoCamera from '@mui/icons-material/PhotoCamera';
 import Stack from '@mui/material/Stack';
 import NativeSelect from '@mui/material/NativeSelect';
+
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
 
 
 
@@ -25,7 +33,18 @@ const Input = styled('input')({
 function DonorRegister() {
   document.title = 'Cadastre-se';
   const navigate = useNavigate();
-  
+
+
+  const [open, setOpen] = useState(false);
+
+
+  const handleClickOpenONG = () => {
+    setOpen(true);
+  };
+
+  const handleCloseONG = () => {
+    setOpen(false);
+  };
 
   const [nome, setNome] = useState("");
   const [rg, setRg] = useState("");
@@ -45,9 +64,26 @@ function DonorRegister() {
 
   const [estado, setEstado] = useState("");
 
-  async function register() {
+  const [cpnj, setCpnj] = useState("");
+  const [description, setDescription] = useState("");
+  const [category, setCategory] = useState("");
 
-    document.title = 'Cadastro';
+  function changeFormOng() {
+
+    document.querySelector('.form-signup-donor').classList.add('hide');
+    document.querySelector('.form-signup-ong').classList.remove('hide');
+
+  }
+
+  function changeFormDonor() {
+
+    document.querySelector('.form-signup-ong').classList.add('hide');
+    document.querySelector('.form-signup-donor').classList.remove('hide');
+
+  }
+
+  async function registerDonor() {
+    handleCloseONG();
 
     try {
       const res = await api.post('/donors', {
@@ -72,7 +108,38 @@ function DonorRegister() {
 
       if (res.status === 201) alert("Cadastrado com sucesso!");
 
-      navigate('/login');
+      navigate('/');
+    }
+    catch (err) {
+      alert('Erro: ' + err.response.status);
+    }
+  }
+
+  async function registerOng() {
+    try {
+      const res = await api.post('/ongs', {
+        img: "teste.jpg",
+        name: nome,
+        email,
+        password: senha,
+        addressDTO: {
+          state: estado,
+          city: cidade,
+          district: bairro,
+          cep,
+          street: rua,
+          number: numero,
+          complement: complemento
+        },
+        rg,
+        cpf,
+        userType: "USER_DONOR",
+        connect: false
+      });
+
+      if (res.status === 201) alert("Cadastrado com sucesso!");
+
+      navigate('/');
     }
     catch (err) {
       alert('Erro: ' + err.response.status);
@@ -106,27 +173,54 @@ function DonorRegister() {
     'SC'
   ];
 
+  const categories = [
+    'Animais',
+    'Assistência social',
+    'Cultura',
+    'Desenvolvimento e defesa de direitos',
+    'Educação e Pesquisa',
+    'Habitação',
+    'Meio ambiente',
+    'Saúde'
+  ];
+
   return (
     <div className="container-fluid">
 
       <div className="c-signup-illustration">
-        <img src={signupSVG} alt="sign-up"/>
+        <img src={signupSVG} alt="sign-up" />
       </div>
 
-      <div className="logo-footer">
-        <img src={logoSVG} alt="logo"/>
+      <div style={{ cursor: 'pointer' }} className="logo-footer" onClick={() => navigate('/')}>
+        <img src={logoSVG} alt="logo" />
       </div>
 
-      <div className="form-signup-donor">
+      <div className="toggle-btn">
+        <ButtonGroup variant="contained" className="mui-btn-group">
+          <Button
+            title="Cadastro de ONG"
+            className="mui-btn btn-ong"
+            onClick={() => changeFormOng()}>
+            <img src={ongIcon} />
+          </Button>
+
+          <Button
+            title="Cadastro de Doador"
+            className="mui-btn btn-doador"
+            onClick={() => changeFormDonor()}>
+            <img src={doadorIcon} />
+          </Button>
+        </ButtonGroup>
+      </div>
+
+      <div className="form-signup-donor" id="form-donor">
         <h2>
-          Cadastro de <b>doador</b>
+          Cadastro de <b id="title-type-user">doador</b>
         </h2>
 
         <form>
           <div className="upload-avatar">
-            <img src={emptyAvatar} alt="empty-avatar"/>
-
-            
+            <img src={emptyAvatar} alt="empty-avatar" />
 
 
             <Stack className="input-upload-avatar" direction="row" alignItems="center" spacing={1}>
@@ -248,13 +342,190 @@ function DonorRegister() {
                   })
                 }
               </NativeSelect>
+              
             </div>
           </div>
 
           <div className="btn-group">
             <Button
               variant="contained"
-              onClick={register}
+              onClick={registerDonor}
+            >
+              <b>Enviar</b>
+            </Button>
+          </div>
+
+        </form>
+
+      </div>
+
+
+
+      <div className="form-signup-ong hide" id="form-ong">
+        <h2>
+          Cadastro de <b id="title-type-user">ONG</b>
+        </h2>
+
+        <form>
+          <div className="upload-avatar">
+            <img src={emptyAvatar} alt="empty-avatar" />
+
+
+            <Stack className="input-upload-avatar" direction="row" alignItems="center" spacing={1}>
+              <label htmlFor="contained-button-file">
+                <Input accept="image/*" id="contained-button-file" multiple type="file" />
+                <Button variant="contained" component="span">
+                  Upload
+                </Button>
+              </label>
+              <label htmlFor="icon-button-file">
+                <Input accept="image/*" id="icon-button-file" type="file" />
+                <IconButton color="primary" aria-label="upload picture" component="span">
+                  <PhotoCamera />
+                </IconButton>
+              </label>
+            </Stack>
+          </div>
+
+          <div className="input-group">
+            <div>
+              <p><b>Dados da ONG</b></p>
+              <TextField
+                label="Nome fantasia"
+                variant="standard"
+                size="small"
+                onChange={(e) => setNome(e.target.value)}
+              />
+              <TextField
+                label="CNPJ"
+                variant="standard"
+                size="small"
+                onChange={(e) => setCpf(e.target.value)}
+              />
+
+              <NativeSelect onChange={(e) => setCategory(e.target.value)} className="select-category">
+                <option disabled selected>Categoria</option>
+                {
+                  categories.map(category => {
+                    return <option value={category}>{category}</option>
+                  })
+                }
+              </NativeSelect>
+
+              <TextField
+                label="E-mail"
+                type="email"
+                variant="standard"
+                size="small"
+                onChange={(e) => setEmail(e.target.value)}
+              />
+              <TextField
+                label="Confirme o e-mail"
+                type="email"
+                variant="standard"
+                size="small"
+                onChange={(e) => setEmailConfirmado(e.target.value)}
+              />
+              <TextField
+                label="Senha"
+                type="password"
+                variant="standard"
+                size="small"
+                onChange={(e) => setSenha(e.target.value)}
+              />
+              <TextField
+                label="Confirme a senha"
+                type="password"
+                variant="standard"
+                size="small"
+                onChange={(e) => setSenhaConfirmada(e.target.value)}
+              />
+
+            </div>
+
+            <div>
+              <p><b>Endereço</b></p>
+              <TextField
+                label="CEP"
+                variant="standard"
+                size="small"
+                onChange={(e) => setCep(e.target.value)}
+              />
+
+              <TextField
+                label="Rua"
+                variant="standard"
+                size="small"
+                onChange={(e) => setRua(e.target.value)}
+              />
+
+
+              <TextField
+                label="Número"
+                variant="standard"
+                size="small"
+                onChange={(e) => setNumero(e.target.value)}
+              />
+
+              <TextField
+                label="Cidade"
+                variant="standard"
+                size="small"
+                onChange={(e) => setCidade(e.target.value)}
+              />
+              <TextField
+                label="Bairro"
+                variant="standard"
+                size="small"
+                onChange={(e) => setBairro(e.target.value)}
+              />
+              <TextField
+                label="Complemento"
+                variant="standard"
+                size="small"
+                onChange={(e) => setComplemento(e.target.value)}
+              />
+
+              <NativeSelect onChange={(e) => setEstado(e.target.value)} className="select-uf">
+                <option disabled selected>Estado</option>
+                {
+                  ufs.map(uf => {
+                    return <option value={uf}>{uf}</option>
+                  })
+                }
+              </NativeSelect>
+
+
+              <div>
+                <Dialog open={open} onClose={handleCloseONG}>
+                  <DialogTitle>Biografia</DialogTitle>
+                  <DialogContent>
+                    <DialogContentText>
+                      Adicione uma breve descrição à sua ONG para atrair potenciais doadores.
+                    </DialogContentText>
+                    <br></br>
+                    <TextField
+                      id="outlined-multiline-static"
+                      label="Descrição"
+                      multiline
+                      rows={4}
+                    />
+                  </DialogContent>
+                  <DialogActions>
+                    <Button onClick={handleCloseONG}>Cancelar</Button>
+                    <Button onClick={registerOng}>Cadastrar</Button>
+                  </DialogActions>
+                </Dialog>
+              </div>
+
+
+            </div>
+          </div>
+
+          <div className="btn-group">
+            <Button
+              variant="contained"
+              onClick={handleClickOpenONG}
             >
               <b>Enviar</b>
             </Button>

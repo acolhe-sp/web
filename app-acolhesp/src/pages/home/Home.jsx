@@ -16,37 +16,41 @@ import iconCultura from "../../images/network.png";
 import iconDefesa from "../../images/perfil.png";
 import iconHabit from "../../images/casa-limpa.png";
 import iconAmbiente from "../../images/planeta-terra.png";
+import iconAll from "../../images/all.png";
 import api from "../../api";
 
 function Home() {
     document.title = 'Início';
 
-    // const participante = JSON.parse(sessionStorage.getItem('participante'));
-
     const [ ongs, setOngs ] = React.useState();
     const [ category, setCategory ] = React.useState();
-
     
     useEffect(() => {
 
-        const getOngs = async () => {
-            let resp = await api.get(`/ngos/card-data`).catch(console.error);
-            setOngs(resp.data || []);
-        }
+        const getOngs = category && category !== 0
+                        ? async () => {
+                            let resp = await api.get(`/ngos/categorias/${category}`).catch(console.error);
+                            setOngs(resp.data || []);
+                        }
+                        : async () => {
+                            let resp = await api.get(`/ngos/card-data`).catch(console.error);
+                            setOngs(resp.data || []);
+                        };
 
         getOngs();
         
-    }, []);
+    }, [category]);
 
     const cardsFiltersGroup = [
-        <CardFilterContent image={iconDogs} name="Animais" onClickDo={() => setCategory(1)}/>,
-        <CardFilterContent image={iconAssist} name="Assistência Social" onClickDo={() => setCategory(2)}/>,
-        <CardFilterContent image={iconEduc} name="Educação e Pesquisa" onClickDo={() => setCategory(3)}/>,
-        <CardFilterContent image={iconSaude} name="Saúde" onClickDo={() => setCategory(4)}/>,
-        <CardFilterContent image={iconCultura} name="Cultura" onClickDo={() => setCategory(5)}/>,
-        <CardFilterContent image={iconDefesa} name="Defesa de direitos" onClickDo={() => setCategory(6)}/>,
-        <CardFilterContent image={iconHabit} name="Habitação" onClickDo={() => setCategory(7)}/>,
-        <CardFilterContent image={iconAmbiente} name="Meio Ambiente" onClickDo={() => setCategory(8)}/>
+        <div onClick={() => setCategory(1)}><CardFilterContent image={iconDogs} name="Animais"/></div>,
+        <div onClick={() => setCategory(2)}><CardFilterContent image={iconAssist} name="Assistência Social"/></div>,
+        <div onClick={() => setCategory(3)}><CardFilterContent image={iconEduc} name="Educação e Pesquisa"/></div>,
+        <div onClick={() => setCategory(4)}><CardFilterContent image={iconSaude} name="Saúde"/></div>,
+        <div onClick={() => setCategory(5)}><CardFilterContent image={iconCultura} name="Cultura"/></div>,
+        <div onClick={() => setCategory(6)}><CardFilterContent image={iconDefesa} name="Defesa de direitos"/></div>,
+        <div onClick={() => setCategory(7)}><CardFilterContent image={iconHabit} name="Habitação"/></div>,
+        <div onClick={() => setCategory(8)}><CardFilterContent image={iconAmbiente} name="Meio Ambiente"/></div>,
+        <div onClick={() => setCategory(0)}><CardFilterContent image={iconAll} name="Todos"/></div>,
     ];
 
 

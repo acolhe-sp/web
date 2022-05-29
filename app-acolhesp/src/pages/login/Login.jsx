@@ -47,6 +47,7 @@ function Login() {
 
       setOpenSuccessAlert(true);
 
+      sessionStorage.clear();
       sessionStorage.setItem("participante", JSON.stringify(res.data));
 
       if(res.data.user.userType === "USER_DONOR") {

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import logoAcolhesp from '../../images/logoWithTitle.svg';
 
@@ -12,14 +12,21 @@ import PopFunctionNav from '../popFunctionsNav/PopFunctionsNav';
 
 import fotoPadrao from '../../images/profileavatar.png';
 import prepareName from '../../utils/prepareName';
+import getImageBanco from '../../utils/getImageUser';
 
 function Navbar(props) {
 
     const participante = JSON.parse(sessionStorage.getItem('participante'));
 
+    const [imagem, setImagem] = useState("");
+
     useEffect(() => {
 
+        const initImage = async () => {
+            setImagem(await getImageBanco(participante ? participante.user.id : ''));
+        }
 
+        initImage();
 
     }, [])
 
@@ -63,7 +70,7 @@ function Navbar(props) {
                             cursor: 'pointer',
                             backgroundColor: 'transparent'}} onClick={() => props.ong ? navigate(`/dashboard`) :navigate(`/my-profile`)}>
                         
-                            <img src={fotoPadrao} alt="image" className="avatar" />
+                            <img src={!!imagem === true ? imagem : fotoPadrao} alt="image" className="avatar" />
                             <p style={{ position: 'relative', top: '0px', left: '10px' }}>{prepareName(participante.user.name)}</p>
 
                         </div>

@@ -45,6 +45,18 @@ const LightTheme = createTheme({
               backgroundColor: '#b35d18c4',
             }
           },
+        },
+        {
+          props: { variant: 'follower' },
+          style: {
+            backgroundColor: '#b35d18c4',
+            color: 'white',
+            height: '40px',
+            borderRadius: '5px',
+            ":hover": {
+              backgroundColor: '#e98838ad',
+            }
+          },
         }
       ]
     },

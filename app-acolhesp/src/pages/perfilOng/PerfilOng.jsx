@@ -17,6 +17,7 @@ function PerfilOng() {
 
     const [ ong, setOng ] = React.useState();
     const [ publications, setPublications ] = React.useState();
+    const [ follower, isFollower ] = React.useState();
 
     const participante = JSON.parse(sessionStorage.getItem('participante'));
 
@@ -26,23 +27,40 @@ function PerfilOng() {
     
     useEffect(()=> {
 
-        const getOng = async () => {
+        const getOngData = async () => {
             let resp = await api.get(`/ngos/${id}`).catch(console.error);
             setOng(resp.data);
         }
 
-        const getPostsOng = async () => {
+        const listPublications = async () => {
             let resp = await api.get(`/posts/publisher/${id}`).catch(console.error);
             setPublications(resp.data);
         }
 
-        getOng();
-        getPostsOng();
+        const checkFollow = async () => {
+            let resp = await api.get(`/donors/${participante.donor.id}/follow/${id}`).catch(console.log);
+
+            console.log(`resp follow: ${resp}`);
+            isFollower(resp.data);
+        }
+
+        getOngData();
+        listPublications();
+        checkFollow();
 
     }, []);
 
-    console.log(JSON.stringify(ong));
-    console.log(JSON.stringify(publications));
+    const alterStateFollow = async () => {
+        let resp = await api.post(`/donors/${participante.donor.id}/follow/${id}`).catch(console.log);
+
+        console.log(`resp follow: ${resp}`);
+
+        isFollower(resp.data);
+    };
+
+    console.log("publi: "+JSON.stringify(publications));
+    console.log("ong: "+JSON.stringify(ong));
+    console.log("parti: "+JSON.stringify(participante));
     
     document.title = 'Perfil';
 
@@ -67,9 +85,17 @@ function PerfilOng() {
                                 : <span>Cachorro sem dono</span>
                             }
 
-                                <Button elevation={0} variant="follow" endIcon={<BookmarkIcon />}>
+                            {
+                                !follower 
+                                ?<Button onClick={() => alterStateFollow()} elevation={0} variant="follow" 
+                                    endIcon={<BookmarkIcon />}>
                                     Seguir
-                                </Button>
+                                 </Button>
+                                :<Button onClick={() => alterStateFollow()} elevation={0} variant="follower" 
+                                    endIcon={<BookmarkIcon />}>
+                                    Seguindo
+                                 </Button>
+                            }
                                 
                             </div>
 
@@ -98,7 +124,7 @@ function PerfilOng() {
 
                 <div className="list-publications">
                     {
-                        publications !== undefined && publications !== null
+                        !!publications === true
                         ? publications.map(pub => 
                             <Publication 
                                 id= {pub.id}
