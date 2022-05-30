@@ -10,8 +10,15 @@
     width: 100%;
 }
 
+.align_perfil2{
+    position: relative;
+    top: 12.5vh;
+    width: 90%;
+    margin: 0 auto;
+}
+
 .perfil{
-    color: #1d1b31;
+    color: #31271b;
     width: 100%;
     height: max-content;
     padding: 20px 20px 40px;
@@ -28,7 +35,7 @@
 }
 
 .perfil:last-of-type h1{
-    color: #1d1b31;
+    color: #31271b;
     margin-bottom: 20px;
 }
 
@@ -42,7 +49,7 @@
 .dados_item{
     width: 32%;
     height: 200px;
-    background: #cccccc;
+    background: #c9c9c9;
     border-radius: 4px;
     display: flexbox;
     align-items: center;
@@ -86,7 +93,7 @@
 .info_perfil h1 {
     font-weight: bold;
 	font-size: 2.3em;
-	color: #383A41;
+	color: #31271b;
 }
 
 .info_perfil p {
@@ -102,4 +109,18 @@
 .info_perfil p{
     cursor: pointer;
     text-decoration: underline;
+}
+
+.addDetalhe {
+    transition: .5s;
+    cursor: pointer;
+}
+
+.addDetalhe:hover{ 
+    box-shadow: 0 0 1em 0 #7e7e7e;
+    transform: scale(1.05);
+} 
+
+.butonWithText {
+    display: flex;
 }

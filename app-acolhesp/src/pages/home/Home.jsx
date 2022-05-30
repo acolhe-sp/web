@@ -18,7 +18,6 @@ import iconHabit from "../../images/casa-limpa.png";
 import iconAmbiente from "../../images/planeta-terra.png";
 import iconAll from "../../images/all.png";
 import api from "../../api";
-import getImageBanco from "../../utils/getImageUser";
 
 function Home() {
     document.title = 'Início';
