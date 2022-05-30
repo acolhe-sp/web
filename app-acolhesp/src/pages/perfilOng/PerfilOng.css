@@ -54,6 +54,7 @@
 
 .descricao .inside-capa button{
     justify-self: flex-end;
+    margin-left: 10px;
 }
 
 .fix-align-local-button {

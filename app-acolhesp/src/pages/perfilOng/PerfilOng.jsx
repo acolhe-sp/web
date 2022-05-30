@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { InputBase, Button } from '@mui/material';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
+import VolunteerActivismIcon from '@mui/icons-material/VolunteerActivism';
 import FmdGoodIcon from '@mui/icons-material/FmdGood';
 
 import Navbar from "../../components/navbar/Navbar";
@@ -83,24 +84,29 @@ function PerfilOng() {
                         }
                         <div className="descricao">
                             <div className="inside-capa">
-                            {
-                                ong !== undefined 
-                                ? <span>{ong.name}</span>
-                                : <span>Cachorro sem dono</span>
-                            }
+                                {
+                                    ong !== undefined 
+                                    ? <span>{ong.name}</span>
+                                    : <span>Cachorro sem dono</span>
+                                }
 
-                            {
-                                !follower 
-                                ?<Button onClick={() => alterStateFollow()} elevation={0} variant="follow" 
-                                    endIcon={<BookmarkIcon />}>
-                                    Seguir
-                                 </Button>
-                                :<Button onClick={() => alterStateFollow()} elevation={0} variant="follower" 
-                                    endIcon={<BookmarkIcon />}>
-                                    Seguindo
-                                 </Button>
-                            }
-                                
+                                {
+                                    !follower 
+                                    ?<Button onClick={() => alterStateFollow()} elevation={0} variant="follow" 
+                                        endIcon={<BookmarkIcon />}>
+                                        Seguir
+                                    </Button>
+                                    :<Button onClick={() => alterStateFollow()} elevation={0} variant="follower" 
+                                        endIcon={<BookmarkIcon />}>
+                                        Seguindo
+                                    </Button>
+                                }
+
+                            
+                                <Button elevation={0} variant="follow" 
+                                    endIcon={<VolunteerActivismIcon />}>
+                                    Doar!
+                                 </Button>   
                             </div>
 
                             <InputBase
