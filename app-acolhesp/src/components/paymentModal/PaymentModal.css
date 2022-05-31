@@ -1,14 +1,22 @@
-* {
-    box-sizing: border-box;
-}
 
 input, select {
     outline: none;
 }
 
 .modal-frame {
-    width: 510px;
-    height: 450px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400;
+    padding-top: 2;
+    prefix: 4;
+    padding-bottom: 3;
+
+    overflow: hidden;
+
+    width: 910px;
+    height: 650px;
     display: flex;
     font-family: 'Montserrat';
 }
@@ -18,54 +26,68 @@ input, select {
     flex-direction: column;
     align-items: center;
     height: 100%;
-    width: 217px;
-    background-color: #BA336C;
+    width: 40%;
+    background-color: #d3894df6;
     color: #ffffff;
     border-radius: 20px 0px 0px 20px;
+
+    overflow: hidden;
 }
 
 .donor-info {
     display: flex;
     flex-direction: column;
     align-items: center;
-    height: 43.45%;
+    height: 38.45%;
+    
     width: 175px;
-    border-bottom: 1px solid #BC7693;
 }
 
 .donor-info p {
+    width: 240px;
     font-weight: 400;
-    font-size: 11px;
+    font-size: 17px;
 }
 
 .donor-info img {
-    width: 115px;
+    width: 215px;
 }
 
 .donor-info h3 {
+    position: relative;
+
+    top: -3vh;
+
     font-weight: 700;
-    font-size: 14px;
+    font-size: 27px;
 }
 
 .payment-methods {
-    height: 56.55%;
-    width: 175px;
+    height: 54.55%;
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    
+    background-color: #d3894df6;
 }
 
 .payment-methods p {
+    width: 270px;
     font-weight: 400;
-    font-size: 11px;
+    font-size: 17px;
 }
 
 .btn {
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    padding: 0 10px;
-    height: 34px;
-    width: 100%;
+    padding: 0 1px;
+    height: 60px;
+    width: 50%;
+    color: #4f4f4f;
     border-radius: 20px;
-    background-color: #ffffff;
     font-size: 13px;
     font-weight: 700;
     cursor: pointer;
@@ -78,45 +100,45 @@ input, select {
 }
 
 .btn-selected {
-    color: #B41F5D;
-    border: solid 2.5px #88C737;
+    color: #8b5529f6;
+    border: solid 2.5px #693d18f6;
 }
 
 .btn:hover {
-    color: #B41F5D;
-    border: solid 2.5px #88C737;
+    color: #8b5529f6;
+    border: solid 2.5px #693d18f6;
 }
 
 .btn-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
+    overflow: hidden;
+    
     height: 60%;
 }
 
 .btn-image {
-    height: 90%;
+    height: 100%;
     width: 20%;
     margin-right: 20px;
     user-select: none;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
 }
 
 .btn-image img {
-    height: inherit;
+    position: relative;
+    top: -10px;
+    width: 40px;
 }
 
 .checkbox-div {
-    width: 156px;
+    position: relative;
+    top: -10px;
+    width: 296px;
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
 .checkbox-div p {
-    font-size: 6.5px;
+    font-size: 13.5px;
     font-weight: 500;
     font-style: italic;
 }
@@ -125,8 +147,9 @@ input, select {
 .payment-info {
     background-color: #fff;
     border-radius: 0px 20px 20px 0px;
+    padding-top: 40px;
     height: 100%;
-    width: 293px;
+    width: 60%;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -135,8 +158,7 @@ input, select {
 
 .credit-content {
     height: 42.5%;
-    width: 250px;
-    display: none;
+    width: 390px;
     flex-direction: column;
     align-items: center;
 }
@@ -148,18 +170,17 @@ input, select {
 }
 
 .card-info p {
-    font-size: 16px;
+    font-size: 22px;
     font-weight: 1000;
-    color: #BA336C;
+    color: #693d18f6;
     text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.25);
-    border-bottom: #9C2959 solid 1px;
+    border-bottom: #4b290e solid 1px;
     margin: 9px 0;
 }
 
 .pix-content {
     height: 42.5%;
-    width: 250px;
-    display: none;
+    width: 390px;
     flex-direction: column;
     align-items: center;
 }
@@ -171,18 +192,17 @@ input, select {
 }
 
 .recipient-info p {
-    font-size: 16px;
+    font-size: 22px;
     font-weight: 1000;
-    color: #BA336C;
+    color: #693d18f6;
     text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.25);
-    border-bottom: #9C2959 solid 1px;
+    border-bottom: #4b290e solid 1px;
     margin: 9px 0;
 }
 
 .transfer-content {
     height: 42.5%;
-    width: 250px;
-    display: none;
+    width: 390px;
     flex-direction: column;
     align-items: center;
 }
@@ -194,36 +214,36 @@ input, select {
 }
 
 .account-info p {
-    font-size: 16px;
+    font-size: 22px;
     font-weight: 1000;
-    color: #BA336C;
+    color: #693d18f6;
     text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.25);
-    border-bottom: #9C2959 solid 1px;
+    border-bottom: #4b290e solid 1px;
     margin: 9px 0;
 }
 
 .value-info {
-    width: 250px;
+    width: 390px;
     height: 25%;
-    display: none;
+    padding-top: 50px;
     flex-direction: column;
     position: relative;
 }
 
 .value-info p {
-    font-size: 16px;
+    font-size: 24px;
     font-weight: 1000;
-    color: #BA336C;
+    color: #693d18f6;
     text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.25);
-    border-bottom: #9C2959 solid 1px;
+    border-bottom: #4b290e solid 1px;
     margin: 9px 0;
 }
 
 .reset-value {
     height: 15px;
     position: absolute;
-    bottom: 35px;
-    right: 5px;
+    bottom: -15px;
+    right: 48px;
     cursor: pointer;
     user-select: none;
 }
@@ -231,19 +251,20 @@ input, select {
 .cancel-confirm {
     width: 250px;
     height: 32.5%;
-    display: none;
     flex-direction: column;
+    padding-top: 70px;
     justify-content: flex-end;
 }
 
 .btn-cancel {
-    width: 81px;
-    height: 32.5px;
+    width: 130px;
+    height: 36.5px;
     color: #848484;
-    font-size: 12px;
+    font-size: 17px;
     font-weight: bold;
     display: flex;
     justify-content: flex-start;
+    padding-top: 5px;
     align-items: center;
 }
 
@@ -258,12 +279,12 @@ input, select {
 }
 
 .btn-confirm {
-    width: 81px;
-    height: 32.5px;
+    width: 130px;
+    height: 36.5px;
     color: #fff;
     background-color: #88C737;
     border-radius: 20px;
-    font-size: 12px;
+    font-size: 17px;
     font-weight: bold;
     display: flex;
     justify-content: center;
@@ -295,7 +316,7 @@ input, select {
 
 .input-default p {
     color: #848484;
-    font-size: 7px;
+    font-size: 18px;
     font-weight: bold;
     border: none;
     margin-bottom: 1%;
@@ -303,38 +324,38 @@ input, select {
 
 .input-default select {
     border: #909090 solid 0.7px;
-    height: 25px;
-    font-size: 11px;
+    height: 35px;
+    font-size: 18px;
     color: #848484;
 }
 
 .input-selected p {
-    color: #BA336C;
-    font-size: 7px;
+    color: #693d18f6;
+    font-size: 18px;
     font-weight: bold;
     border: none;
     margin-bottom: 1%;
 }
 
 .input-selected select {
-    border: #A8436D solid 1.5px;
-    height: 25px;
-    font-size: 11px;
-    color: #BA336C;
+    border: #693d18f6 solid 1.5px;
+    height: 35px;
+    font-size: 18px;
+    color: #4b290e;
 }
 
 .input-default input {
     border: #909090 solid 0.7px;
-    height: 25px;
-    font-size: 11px;
+    height: 35px;
+    font-size: 18px;
     color: #848484;
 }
 
 .input-selected input {
-    border: #A8436D solid 1.5px;
-    height: 25px;
-    font-size: 11px;
-    color: #BA336C;
+    border: #693d18f6 solid 1.5px;
+    height: 35px;
+    font-size: 18px;
+    color: #4b290e;
 }
 
 .flex-row {
@@ -355,7 +376,8 @@ input, select {
 }
 
 .large {
-    width: 250px;
+    height: 70px;
+    width: 350px;
 }
 
 .small {

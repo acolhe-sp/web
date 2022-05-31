@@ -1,8 +1,9 @@
 import React, { useEffect } from "react";
-import { InputBase, Button } from '@mui/material';
+import { InputBase, Button, Modal, Box } from '@mui/material';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
 import VolunteerActivismIcon from '@mui/icons-material/VolunteerActivism';
 import FmdGoodIcon from '@mui/icons-material/FmdGood';
+import PaymentModal from '../../components/paymentModal/PaymentModal';
 
 import Navbar from "../../components/navbar/Navbar";
 
@@ -16,6 +17,14 @@ import api from "../../api";
 import getImageBanco from "../../utils/getImageUser";
 
 function PerfilOng() {
+
+    const [open, setOpen] = React.useState(false);
+    const handleOpen = () => {
+      setOpen(true);
+    };
+    const handleClose = () => {
+      setOpen(false);
+    };
 
     const [ imagem, setImagem ] = React.useState();
     const [ ong, setOng ] = React.useState('');
@@ -103,7 +112,7 @@ function PerfilOng() {
                                 }
 
                             
-                                <Button elevation={0} variant="follow" 
+                                <Button elevation={0} variant="follow" onClick={() => handleOpen()}
                                     endIcon={<VolunteerActivismIcon />}>
                                     Doar!
                                  </Button>   
@@ -149,6 +158,17 @@ function PerfilOng() {
                 </div>
 
             </div>
+
+            <Modal
+                open={open}
+                onClose={handleClose}
+                aria-labelledby="parent-modal-title"
+                aria-describedby="parent-modal-description"
+            >
+                
+                <PaymentModal nome="Itallo" />
+                
+            </Modal>
 
         </>
     )

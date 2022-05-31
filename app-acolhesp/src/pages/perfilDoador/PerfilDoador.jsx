@@ -13,7 +13,6 @@ import { Avatar, IconButton, List, ListItemAvatar, ListItemText, ListItem, Ratin
 
 import './PerfilDoador.css';
 import api from "../../api";
-import { display } from "@mui/system";
 
 function PerfilDoador() {
     document.title = 'Perfil';

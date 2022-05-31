@@ -66,7 +66,6 @@ function Login() {
 
   return (
     <div className='container'>
-
       <div className='logo'>
         <img src={logoSVG} alt="logo"/>
       </div>
