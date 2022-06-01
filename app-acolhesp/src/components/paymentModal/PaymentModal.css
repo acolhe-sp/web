@@ -51,6 +51,7 @@ input, select {
 
 .donor-info img {
     width: 215px;
+    border-radius: 100%;
 }
 
 .donor-info h3 {
@@ -179,7 +180,7 @@ input, select {
 }
 
 .pix-content {
-    height: 42.5%;
+    height: 57.5%;
     width: 390px;
     flex-direction: column;
     align-items: center;
@@ -201,7 +202,7 @@ input, select {
 }
 
 .transfer-content {
-    height: 42.5%;
+    height: 57.5%;
     width: 390px;
     flex-direction: column;
     align-items: center;
@@ -225,7 +226,7 @@ input, select {
 .value-info {
     width: 390px;
     height: 25%;
-    padding-top: 50px;
+    margin-top: 50px;
     flex-direction: column;
     position: relative;
 }
@@ -242,7 +243,7 @@ input, select {
 .reset-value {
     height: 15px;
     position: absolute;
-    bottom: -15px;
+    bottom: 18px;
     right: 48px;
     cursor: pointer;
     user-select: none;
@@ -298,6 +299,30 @@ input, select {
 }
 
 .btn-confirm p {
+    margin: 0;
+    user-select: none;
+}
+
+.btn-rollback {
+    width: 130px;
+    height: 36.5px;
+    color: #fff;
+    background-color: #c73737;
+    border-radius: 20px;
+    font-size: 17px;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.35));
+    cursor: pointer;
+}
+
+.btn-rollback:active {
+    background-color: #922c28;
+}
+
+.btn-rollback p {
     margin: 0;
     user-select: none;
 }
@@ -381,5 +406,5 @@ input, select {
 }
 
 .small {
-    width: 120px;
+    width: 170px;
 }

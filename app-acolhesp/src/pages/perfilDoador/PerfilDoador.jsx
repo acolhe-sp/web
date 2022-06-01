@@ -6,6 +6,8 @@ import getImageBanco from "../../utils/getImageUser";
 
 import emptyAvatar from '../../images/empty-avatar.png';
 
+import DoubleArrowIcon from '@mui/icons-material/DoubleArrow';
+
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 import ArrowCircleLeftIcon from '@mui/icons-material/ArrowCircleLeft';
 
@@ -13,6 +15,8 @@ import { Avatar, IconButton, List, ListItemAvatar, ListItemText, ListItem, Ratin
 
 import './PerfilDoador.css';
 import api from "../../api";
+import prepareName from "../../utils/prepareName";
+import PopStatusDonation from "../../components/popStatusDonation/PopStatusDonation";
 
 function PerfilDoador() {
     document.title = 'Perfil';
@@ -95,7 +99,7 @@ function PerfilDoador() {
 
                                     <div className="dados_item">
                                         <h1>Valor doado</h1>
-                                        <h1>{dataDonations === true && dataDonations != 0 ? dataDonations.valorTotalDoado.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'})  : 'R$ 0,00'}</h1>
+                                        <h1>{!!dataDonations.valorTotalDoado === true ? dataDonations.valorTotalDoado.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'})  : 'R$ 0,00'}</h1>
                                     </div>
 
                                     <div className="dados_item addDetalhe" onClick={() => setPage('follows')}>
@@ -160,8 +164,65 @@ function PerfilDoador() {
                     </section>
                 </div>
                 
-                
-                : <></>
+                : <div className="container">
+                <section className="home-section">
+                    <div className="align_perfil2">
+                        <div className="perfil">
+                            <div className='butonWithText'>
+                                <IconButton sx={{ marginRight: '10px'}} edge="end" aria-label="voltar" onClick={() => setPage('default')}>
+                                    <ArrowCircleLeftIcon fontSize="large" />
+                                </IconButton>
+                                <h1 style={{ paddingTop: '5px'}}>Doações Realizadas</h1>
+                            </div>
+                                
+                            <List sx={{ minWidth: '40%', maxWidth: '100%', display: 'flex', paddingTop: '0px', flexDirection: 'row', flexWrap: 'wrap', height: 'auto' }} dense={false}>
+                                {
+                                    !!dataDonations.donations === true
+                                
+                                    ? dataDonations.donations.map(donation =>
+                                        <ListItem sx={{ display: 'flex', justifyContent: 'center', width: '48%', margin:'10px', background: '#a3a3a3d7', pt: '10px', borderRadius: '10px' }}>
+                                            
+                                            <div style={{ position: 'absolute', top: '8px', right: '20px'}}>
+                                                <PopStatusDonation status={donation.status} />
+                                            </div>
+
+                                            <ListItemAvatar sx={{ display: 'grid', justifyItems: 'center' }}>
+                                                <Avatar>
+                                                    
+                                                </Avatar>
+                                                <h3>{ prepareName(donation.donor.user.name) }</h3>
+                                            </ListItemAvatar>
+                                            
+                                            <ListItem sx={{ display: 'grid', justifyItems: 'center', ml: '10px' }}>
+                                                <h2>{ !!donation.payment.type.description === true ? donation.payment.type.description : '' }</h2>
+                                                <ListItemText>
+                                                    <DoubleArrowIcon sx={{ color: 'blue', }} fontSize='large' />
+                                                    <DoubleArrowIcon sx={{ color: 'blue', }} fontSize='large' />
+                                                    <DoubleArrowIcon sx={{ color: 'blue', }} fontSize='large' />
+                                                    <DoubleArrowIcon sx={{ color: 'blue', }} fontSize='large' />
+                                                    <DoubleArrowIcon sx={{ color: 'blue', }} fontSize='large' />
+                                                    <DoubleArrowIcon sx={{ color: 'blue', }} fontSize='large' />
+                                                    <DoubleArrowIcon sx={{ color: 'blue', }} fontSize='large' />
+                                                </ListItemText>
+                                                <h2>{!!donation.payment.value === true ? donation.payment.value.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'}) : 'R$ 0,00'}</h2>
+                                            </ListItem>
+
+                                            <ListItemAvatar sx={{ display: 'grid', justifyItems: 'center' }}>
+                                                <Avatar>
+                                                    
+                                                </Avatar>
+                                                <h3>{ prepareName(donation.ngo.user.name) }</h3>
+                                            </ListItemAvatar>
+                                      
+                                        </ListItem>
+                                    ) 
+                                    : <></>
+                                }
+                            </List>
+                        </div>
+                    </div>
+                </section>
+            </div>
             }
 
             

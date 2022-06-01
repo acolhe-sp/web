@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { InputBase, Button, Modal, Box } from '@mui/material';
+import { InputBase, Button, Modal, Box, Snackbar, Alert } from '@mui/material';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
 import VolunteerActivismIcon from '@mui/icons-material/VolunteerActivism';
 import FmdGoodIcon from '@mui/icons-material/FmdGood';
@@ -30,6 +30,16 @@ function PerfilOng() {
     const [ ong, setOng ] = React.useState('');
     const [ publications, setPublications ] = React.useState();
     const [ follower, isFollower ] = React.useState();
+
+    const [openSuccessRollbackAlert, setSuccessRollbackAlert] = React.useState(false);
+
+    const handleCloseModalRollback = (event, reason) => {
+        if (reason === 'clickaway') {
+          return;
+        }
+    
+        setSuccessRollbackAlert(false);
+    };
 
     const participante = JSON.parse(sessionStorage.getItem('participante'));
 
@@ -71,10 +81,6 @@ function PerfilOng() {
 
         isFollower(resp.data);
     };
-
-    console.log("publi: "+JSON.stringify(publications));
-    console.log("ong: "+JSON.stringify(ong));
-    console.log("parti: "+JSON.stringify(participante));
     
     document.title = 'Perfil';
 
@@ -164,11 +170,19 @@ function PerfilOng() {
                 onClose={handleClose}
                 aria-labelledby="parent-modal-title"
                 aria-describedby="parent-modal-description"
-            >
-                
-                <PaymentModal nome="Itallo" />
+            >   
+                <PaymentModal ong={ong ? ong : null} 
+                                donorId={participante ? participante.donor.id : null} 
+                                imagemOng={imagem} 
+                                setOpenChildren={setOpen} setOpenModalRollback={setSuccessRollbackAlert} />
                 
             </Modal>
+
+            <Snackbar open={openSuccessRollbackAlert} autoHideDuration={5000} onClose={handleCloseModalRollback}>
+                <Alert onClose={handleCloseModalRollback} severity="success" sx={{ fontSize: '18px', width: '80%' }}>
+                    Doação desfeita com sucesso!
+                </Alert>
+            </Snackbar>
 
         </>
     )
