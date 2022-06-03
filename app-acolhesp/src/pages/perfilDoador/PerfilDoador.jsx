@@ -62,9 +62,6 @@ function PerfilDoador() {
 
     }, []);
 
-    console.log(dataFollow);
-    console.log(dataDonations);
-
     return(
         <>
             <Navbar/>
@@ -99,7 +96,7 @@ function PerfilDoador() {
 
                                     <div className="dados_item">
                                         <h1>Valor doado</h1>
-                                        <h1>{!!dataDonations.valorTotalDoado === true ? dataDonations.valorTotalDoado.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'})  : 'R$ 0,00'}</h1>
+                                        <h1 style={{ color: '#518f27d7'}}>{!!dataDonations.valorTotalDoado === true ? dataDonations.valorTotalDoado.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'})  : 'R$ 0,00'}</h1>
                                     </div>
 
                                     <div className="dados_item addDetalhe" onClick={() => setPage('follows')}>
@@ -130,7 +127,7 @@ function PerfilDoador() {
                                         ? dataFollow.ngosFollowing.map(follow =>
                                             <ListItem sx={{ width: '48%', margin:'10px', background: '#a3a3a3d7', cursor: 'pointer' }}
                                                 secondaryAction={
-                                                    <IconButton edge="end" aria-label="delete" onClick={() => unfollowNgo(follow.id, participante.user.id)}>
+                                                    <IconButton edge="end" aria-label="delete" onClick={() => unfollowNgo(follow.id, participante.donor.id)}>
                                                         <RemoveCircleIcon />
                                                     </IconButton>
                                                 }>
