@@ -80,7 +80,7 @@ function PerfilDoador() {
                                 </div>
                     
                                 <div className="info_perfil">
-                                    <h4>Bem vindo!</h4>
+                                    <h4>Bem-vindo(a)!</h4>
                                     <h1 id="nome_usuario">{ participante ? participante.user.name : ''}</h1>
                     
                                     <div className="hr"></div>
@@ -98,7 +98,7 @@ function PerfilDoador() {
                                     </div>
 
                                     <div className="dados_item">
-                                        <h1>Valor doado</h1>
+                                        <h1>Valor total doado</h1>
                                         <h1>{!!dataDonations.valorTotalDoado === true ? dataDonations.valorTotalDoado.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'})  : 'R$ 0,00'}</h1>
                                     </div>
 
