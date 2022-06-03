@@ -4,6 +4,8 @@ import { Alert, Button, IconButton, NativeSelect, Snackbar, Stack, TextField, Ty
 import { PhotoCamera } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 
+import { get } from 'axios';
+
 import api from "../../api";
 
 import { styled } from '@mui/material/styles';
@@ -52,6 +54,8 @@ function UpdateDataUser() {
 
     const [estado, setEstado] = useState("");
 
+    const [focusedViaCep, setFocusedViacep] = useState(false);
+
     const [openFailedAlert, setOpenFailedAlert] = useState(false);
 
     async function setUserData(part) {
@@ -68,6 +72,29 @@ function UpdateDataUser() {
         setEstado(part.user.address.state);
 
     }
+
+    async function viaCepHandle(cep) {
+        setCep(cep);
+    
+        if (cep.length == 8 || cep.length == 9) {
+          const res = await get(`https://viacep.com.br/ws/${cep}/json/`);
+          console.log(res.data);
+    
+          setRua(res.data.logradouro);
+          setBairro(res.data.bairro);
+          setEstado(res.data.uf);
+          setCidade(res.data.localidade);
+    
+          document.getElementById('input-rua').value = res.data.logradouro;
+          setFocusedViacep(true);
+    
+    
+          
+          document.getElementById('input-bairro').value = res.data.bairro;
+          document.getElementById('input-cidade').value = res.data.localidade;
+          document.getElementById('input-uf').value = res.data.uf;
+        }
+      }
 
     function initializeComponentes() {
         if (participante && participante.user.userType === "USER_DONOR") {
@@ -398,7 +425,7 @@ function UpdateDataUser() {
                                     variant="filled"
                                     value={cep}
                                     size="small"
-                                    onChange={(e) => setCep(e.target.value)}
+                                    onChange={(e) => viaCepHandle(e.target.value)}
                                     sx={textStyle}
                                 />
 
@@ -409,6 +436,8 @@ function UpdateDataUser() {
                                     variant="filled"
                                     value={rua}
                                     size="small"
+                                    id="input-rua"
+                                    focused={focusedViaCep}
                                     onChange={(e) => setRua(e.target.value)}
                                     sx={textStyle}
                                 />
@@ -431,6 +460,8 @@ function UpdateDataUser() {
                                     variant="filled"
                                     value={cidade}
                                     size="small"
+                                    id="input-cidade"
+                                    focused={focusedViaCep}
                                     onChange={(e) => setCidade(e.target.value)}
                                     sx={textStyle}
                                 />
@@ -441,6 +472,8 @@ function UpdateDataUser() {
                                     variant="filled"
                                     value={bairro}
                                     size="small"
+                                    id="input-bairro"
+                                    focused={focusedViaCep}
                                     onChange={(e) => setBairro(e.target.value)}
                                     sx={textStyle}
                                 />

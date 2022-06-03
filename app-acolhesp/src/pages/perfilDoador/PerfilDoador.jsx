@@ -77,7 +77,7 @@ function PerfilDoador() {
                                 </div>
                     
                                 <div className="info_perfil">
-                                    <h4>Bem vindo!</h4>
+                                    <h4>Bem-vindo(a)!</h4>
                                     <h1 id="nome_usuario">{ participante ? participante.user.name : ''}</h1>
                     
                                     <div className="hr"></div>
