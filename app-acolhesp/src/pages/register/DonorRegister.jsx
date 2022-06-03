@@ -603,7 +603,7 @@ function DonorRegister() {
                 label="CEP"
                 variant="standard"
                 size="small"
-                onChange={(e) => setCep(e.target.value)}
+                onChange={(e) => ViacepHandle(e.target.value)}
                 sx={{marginBottom: '10px'}}
               />
 
@@ -611,6 +611,8 @@ function DonorRegister() {
                 label="Rua"
                 variant="standard"
                 size="small"
+                id="input-rua"
+                focused={focusedViacep}
                 onChange={(e) => setRua(e.target.value)}
                 sx={{marginBottom: '10px'}}
               />
@@ -628,6 +630,8 @@ function DonorRegister() {
                 label="Cidade"
                 variant="standard"
                 size="small"
+                id="input-cidade"
+                focused={focusedViacep}
                 onChange={(e) => setCidade(e.target.value)}
                 sx={{marginBottom: '10px'}}
               />
@@ -635,6 +639,8 @@ function DonorRegister() {
                 label="Bairro"
                 variant="standard"
                 size="small"
+                id="input-bairro"
+                focused={focusedViacep}
                 onChange={(e) => setBairro(e.target.value)}
                 sx={{marginBottom: '10px'}}
               />
