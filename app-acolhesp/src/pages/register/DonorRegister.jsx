@@ -20,6 +20,8 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 
+import { get } from 'axios';
+
 
 import './DonorRegister.css';
 import api from '../../api';
@@ -72,6 +74,8 @@ function DonorRegister() {
   const [bairro, setBairro] = useState("");
   const [complemento, setComplemento] = useState("");
 
+  const [focusedViacep ,setFocusedViacep] = useState(false);
+
   const [estado, setEstado] = useState("");
 
   const [cnpj, setCnpj] = useState("");
@@ -112,6 +116,8 @@ function DonorRegister() {
 
   }
 
+
+
   function setImageInput() {
       const inputImage = document.getElementById('icon-button-file');
       
@@ -123,6 +129,30 @@ function DonorRegister() {
       };
       reader.readAsDataURL(file);
 
+  }
+
+
+  async function ViacepHandle(cep) {
+    setCep(cep);
+
+    if (cep.length == 8 || cep.length == 9) {
+      const res = await get(`https://viacep.com.br/ws/${cep}/json/`);
+      console.log(res.data);
+
+      setRua(res.data.logradouro);
+      setBairro(res.data.bairro);
+      setEstado(res.data.uf);
+      setCidade(res.data.localidade);
+
+      document.getElementById('input-rua').value = res.data.logradouro;
+      setFocusedViacep(true);
+
+
+      
+      document.getElementById('input-bairro').value = res.data.bairro;
+      document.getElementById('input-cidade').value = res.data.localidade;
+      document.getElementById('input-uf').value = res.data.uf;
+    }
   }
 
   async function registerDonor() {
@@ -390,7 +420,7 @@ function DonorRegister() {
                 label="CEP"
                 variant="standard"
                 size="small"
-                onChange={(e) => setCep(e.target.value)}
+                onChange={(e) => ViacepHandle(e.target.value)}
                 sx={{marginBottom: '10px'}}
               />
 
@@ -399,6 +429,8 @@ function DonorRegister() {
                 variant="standard"
                 size="small"
                 onChange={(e) => setRua(e.target.value)}
+                id="input-rua"
+                focused={focusedViacep}
                 sx={{marginBottom: '10px'}}
               />
 
@@ -415,6 +447,8 @@ function DonorRegister() {
                 variant="standard"
                 size="small"
                 onChange={(e) => setCidade(e.target.value)}
+                id="input-cidade"
+                focused={focusedViacep}
                 sx={{marginBottom: '10px'}}
               />
               <TextField
@@ -422,6 +456,8 @@ function DonorRegister() {
                 variant="standard"
                 size="small"
                 onChange={(e) => setBairro(e.target.value)}
+                id="input-bairro"
+                focused={focusedViacep}
                 sx={{marginBottom: '10px'}}
               />
               <TextField
@@ -432,7 +468,11 @@ function DonorRegister() {
                 sx={{marginBottom: '10px'}}
               />
 
-              <NativeSelect onChange={(e) => setEstado(e.target.value)} className="select-uf" sx={{marginBottom: '10px'}}>
+              <NativeSelect
+              onChange={(e) => setEstado(e.target.value)} 
+              className="select-uf"
+              id="input-uf" 
+              sx={{marginBottom: '10px'}}>
                 <option disabled selected>Estado</option>
                 {
                   ufs.map(uf => {
