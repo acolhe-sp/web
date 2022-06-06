@@ -11,6 +11,7 @@ import api from "../../api";
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 import SendIcon from '@mui/icons-material/Send';
 import Publication from "../../components/publication/Publication";
+import ChartAnalytics from "../../components/chartAnalytics/ChartAnalytics";
 
 function Dashboard() {
     document.title = 'Dashboard';
@@ -27,6 +28,27 @@ function Dashboard() {
 
     const [descPost, setDescPost] = useState('');
 
+    /*
+        Config data chartjs
+    */
+
+    // const labels = [
+    //     'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
+    //     'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
+    // ];
+
+    const [dataChart, setDataChart] = useState({
+        labels: Array.isArray(dataDonations.donations) ? dataDonations.donations.map(donation => new Date(donation.dateDonation).getMonth()) : [],
+        datasets: [{
+            label: "Valor arrecadado",
+            data: Array.isArray(dataDonations.donations) ? dataDonations.donations.map(donation => donation.payment.value) : [],
+            backgroundColor: '#e98838ad',
+            borderColor: '#31271b',
+            borderWidth: 1
+        }]
+    });
+    
+
     async function initializeComponentes() {
 
         setImagem(await getImageBanco(participante.user.id));
@@ -38,7 +60,7 @@ function Dashboard() {
         const respPosts = await api.get(`/posts/publisher/${participante.ngo.id}/analytics`).catch(console.log);
 
         setDataPosts(respPosts.data);
-
+        
     }
 
     async function publish() {
@@ -56,19 +78,20 @@ function Dashboard() {
 
     }
 
-    /*
-        Config data chartjs
-    */
-
-    // const labels = [
-    //     'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
-    //     'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
-    // ];
-
-
     useEffect(() => {
 
         initializeComponentes();
+
+        setDataChart({
+            labels: Array.isArray(dataDonations.donations) ? dataDonations.donations.map(donation => new Date(donation.dateDonation).getMonth()) : [],
+            datasets: [{
+                label: "Valor arrecadado",
+                data: Array.isArray(dataDonations.donations) ? dataDonations.donations.map(donation => donation.payment.value) : [],
+                backgroundColor: '#e98838ad',
+                borderColor: '#e98838ad',
+                borderWidth: 4
+            }]
+        });
 
     }, []);
 
@@ -130,7 +153,13 @@ function Dashboard() {
                                         </div>
 
                                         <div className="dadosAnuaisDeDoacao">
-
+                                            <div >
+                                                {
+                                                    !!dataChart.datasets === true
+                                                    ?<ChartAnalytics chartData={dataChart} />
+                                                    :<></>
+                                                }
+                                            </div>
                                         </div>
                                     </div>
 
