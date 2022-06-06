@@ -147,9 +147,9 @@ function PerfilOng() {
                     </div>
                 </div>
 
-                <div className="list-publications">
+                <div className="list-publications" style={{ position: 'relative', top: '34vh'}}>
                     {
-                        !!publications === true
+                        !!publications === true && participante.donor.id
                         ? publications.map(pub => 
                             <Publication 
                                 id= {pub.id}
@@ -157,7 +157,9 @@ function PerfilOng() {
                                 nome={pub.ngo.user.name}
                                 data= {pub.dateTime}
                                 descricao={pub.description}
-                                imagemPublicacao={pub.img} 
+                                imagemPublicacao={pub.img}
+                                isDonor={true}
+                                idDonor={participante.donor.id}
                             />)
                         : <></>
                     }

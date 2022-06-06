@@ -135,7 +135,7 @@ function DonorRegister() {
   async function ViacepHandle(cep) {
     setCep(cep);
 
-    if (cep.length == 8 || cep.length == 9) {
+    if (cep.length === 8 || cep.length === 9) {
       const res = await get(`https://viacep.com.br/ws/${cep}/json/`);
       console.log(res.data);
 

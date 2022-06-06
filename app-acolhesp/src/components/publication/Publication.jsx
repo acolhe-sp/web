@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import { InputBase } from '@mui/material';
 
@@ -6,22 +6,50 @@ import './Publication.css';
 
 import fotoPadrao from '../../images/profileavatar.png';
 
+import api from "../../api";
+
 import iconUnlike from '../../images/unlike.png';
 import iconLike from '../../images/like.png';
-import PopComentsPublication from "../popComentsPublication/PopComentsPublication";
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import prepareDataHora from "../../utils/prepareDataHora";
 
 function Publication(props) {
 
-    const [liked, setLiked] = React.useState(false);
+    const [liked, setLiked] = React.useState();
 
     const idPubli = `publi${props.id}`;
     
     const iconLikeState = liked ? iconLike : iconUnlike;
 
+    async function stateLike() {
+        const resp = await api.get(`/donors/${props.idDonor}/state-like-post/${props.id}`).catch(console.log);
+
+        setLiked(resp.data);
+    }
+
+    async function turnStateLike() {
+        const resp = await api.post(`/donors/${props.idDonor}/like-post/${props.id}`).catch(console.log);
+
+        setLiked(resp.data);
+    }
+
+    async function deletePost() {
+        await api.delete(`/posts/${props.id}`).catch(console.log);
+
+        document.getElementById(idPubli).style.display = 'none';
+    }
+
+    useEffect(() => {
+
+        if (props.isDonor) {
+            stateLike();
+        }
+
+    }, []);
+
     return (
         <>
-            <div className="content-publi">
+            <div className="content-publi" id={idPubli}>
 
                 <div className="header-publi">
 
@@ -51,7 +79,7 @@ function Publication(props) {
                     id="standard-multiline-static"
                     multiline
                     rows={6}
-                    defaultValue={props.descricao}
+                    value={props.descricao}
                     readOnly={true}
                     variant="descricao-publi"
                 />
@@ -66,13 +94,19 @@ function Publication(props) {
 
                 <div className="dinamic-items-publi">
 
-                <button selected={liked} onClick={() => { setLiked(!liked); }}>
-                    <img src={iconLikeState} className="imgLike" id={idPubli} />
-                </button>
+                {
+                    props.isDonor
+                    ? <button selected={liked} onClick={() => turnStateLike() }>
+                        <img src={iconLikeState} className="imgLike" />
+                    </button>
+                    : <button onClick={() => deletePost()}>
+                        <DeleteForeverIcon fontSize="large" sx={{ transition: '.2s' , ':hover': { color: 'red'}}} />
+                    </button>
+                }
 
-                <span>|</span>
+                    {/* <span>|</span>
 
-                <PopComentsPublication />
+                    <PopComentsPublication /> */}
 
                 </div>
 

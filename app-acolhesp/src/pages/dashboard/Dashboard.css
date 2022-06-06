@@ -1,0 +1,40 @@
+.dadosAnuaisDeDoacao {
+    position: relative;
+    top: 2vh;
+    width: 100%;
+    height: 300px;
+    background: #c9c9c9;
+    border-radius: 4px;
+    display: flexbox;
+    align-items: center;
+    justify-items: center;
+    flex-direction: column;
+    text-align: center;
+}
+
+.img_publisher {
+    width: 80px;
+    overflow: hidden;
+    margin-right: 10px;
+}
+
+.img_publisher img{
+    width: 100%;
+}
+
+.iconSubmit {
+    height: 40px;
+    width: 40px;
+
+    display: grid;
+
+    justify-items: center;
+    align-items: center;
+
+    padding-left: 4px;
+
+    background-color: #e98838ad;
+
+    border-radius: 100%;
+    transition: .2s;
+}

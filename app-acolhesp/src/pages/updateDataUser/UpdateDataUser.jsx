@@ -76,7 +76,7 @@ function UpdateDataUser() {
     async function viaCepHandle(cep) {
         setCep(cep);
     
-        if (cep.length == 8 || cep.length == 9) {
+        if (cep.length === 8 || cep.length === 9) {
           const res = await get(`https://viacep.com.br/ws/${cep}/json/`);
           console.log(res.data);
     
@@ -200,8 +200,6 @@ function UpdateDataUser() {
                     img: imagem
                 });
 
-                console.log("passou segunda fase");
-
                 await resetUserSession(participante.user.id);
 
                 navigate('/home');
@@ -238,8 +236,6 @@ function UpdateDataUser() {
                 };
 
                 await api.put(`/ngos/${participante.ngo.id}`, newNgo);
-
-                console.log(imagem);
 
                 await api.patch(`/users/pic/${participante.user.id}`, 
                     JSON.stringify({
@@ -488,13 +484,11 @@ function UpdateDataUser() {
                                     sx={textStyle}
                                 />
 
-                                <NativeSelect value={<option value={estado}>{estado}</option>}
+                                <NativeSelect value={!!estado === true ? estado : null}
                                     onChange={(e) => setEstado(e.target.value)} className="select-uf">
                                     <option disabled selected>Estado</option>
                                     {
-                                        ufs.map(uf => {
-                                            return <option value={uf}>{uf}</option>
-                                        })
+                                        ufs.map(uf => <option value={uf}>{uf}</option>)
                                     }
                                 </NativeSelect>
                             </div>
