@@ -28,15 +28,6 @@ function Dashboard() {
 
     const [descPost, setDescPost] = useState('');
 
-    /*
-        Config data chartjs
-    */
-
-    // const labels = [
-    //     'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
-    //     'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
-    // ];
-
     const [dataChart, setDataChart] = useState({
         labels: Array.isArray(dataDonations.donations) ? dataDonations.donations.map(donation => new Date(donation.dateDonation).getMonth()) : [],
         datasets: [{
@@ -98,6 +89,10 @@ function Dashboard() {
     console.log(dataDonations);
     console.log(dataPosts);
 
+    async function exportDataDonations() {
+        await api.post('/export', dataDonations.donations).catch(console.log)
+    }
+
     return (
         <>
             <Navbar ong={true} />
@@ -116,7 +111,10 @@ function Dashboard() {
 
                                 <div className="hr" />
 
-                                <p onClick={() => navigate('/update-user')}>Editar Perfil</p>
+                                <div style={{ display: 'flex' }}>
+                                    <p onClick={() => navigate('/update-user')} style={{ marginRight: '25px' }}>Editar Perfil</p>
+                                    <p onClick={() => exportDataDonations()}>Exportar dados</p>
+                                </div>
                             </div>
                         </div>
 
